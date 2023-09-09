@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "ControleEstoque (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "ControleEstoque (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
