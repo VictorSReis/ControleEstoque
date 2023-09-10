@@ -9,7 +9,72 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid>
+    <Grid x:Name="GridPrincipal">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
 
+        <Grid x:Name="GridPainelSuperior" 
+              Grid.Row="0" 
+              Background="#FFDFD5DD"
+              CornerRadius="0,0,8,8">
+            <TextBlock x:Name="Txt_NomePage" Text="CAIXA" 
+                       HorizontalAlignment="Center" 
+                       VerticalAlignment="Center"
+                       FontSize="40"
+                       FontStretch="Condensed"
+                       FontWeight="Bold"
+                       Foreground="White"/>
+        </Grid>
+
+        <Grid x:Name="GridConteudo" 
+              Grid.Row="1"
+              Background="#F0EDED"
+              Margin="0,2,0,0"
+              CornerRadius="8,8,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <RelativePanel  Grid.Row="0">
+                <TextBox x:Name="Txb_ProdutoSerach" 
+                         Margin="20,15,0,0"
+                         PlaceholderText="Digite o nome ou ID do produto"
+                         Width="400" Height="24"/>
+                
+                <Button x:Name="Btn_SearchProduto"
+                        Background="Transparent"
+                        Margin="15,15,0,0"
+                        RelativePanel.RightOf="Txb_ProdutoSerach"
+                        RelativePanel.AlignVerticalCenterWith="Txb_ProdutoSerach">
+                    
+                    <Image Source="ms-appx:///ControleEstoqueResources/Images/img_search_produto.png"
+                           Width="20" Height="20" Stretch="Uniform"/>
+                </Button>
+
+                <Line x:Name="Line_Divisoria"
+                      Stroke="Gray"
+                      StrokeThickness="1"
+                      X1="0" X2="800"
+                      Margin="0,20,0,0"
+                      RelativePanel.Below="Txb_ProdutoSerach"
+                      RelativePanel.AlignVerticalCenterWithPanel="True"
+                      RelativePanel.AlignHorizontalCenterWithPanel="True"/>
+
+                <TextBlock x:Name="Text_StatusProcura"
+                           Text="........"
+                           RelativePanel.Below="Line_Divisoria"
+                           RelativePanel.AlignVerticalCenterWithPanel="True"
+                           RelativePanel.AlignHorizontalCenterWithPanel="True"/>
+            </RelativePanel>
+
+            <ListView x:Name="ListViewProdutosPesquisa" Grid.Row="1">
+                
+            </ListView>
+
+        </Grid>
+        
     </Grid>
 </Page>

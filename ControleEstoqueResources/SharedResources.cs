@@ -26,4 +26,4 @@ public static class SharedResourcesApp
         _PageRecursoNavigator = new NavigatePage();
         _PageRecursoNavigator.SetFrame(pFrameNav);
     }
-
+}

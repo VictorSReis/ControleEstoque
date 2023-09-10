@@ -1,3 +1,5 @@
+using ControleEstoqueCore;
+using ControleEstoqueResources;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -23,14 +25,39 @@ namespace ControleEstoquePages
     /// </summary>
     public sealed partial class Pg_Home : Page
     {
+        INavigatePage PageNav;
+
         public Pg_Home()
         {
             this.InitializeComponent();
+            this.Loaded += Pg_Home_Loaded;
+        }
+
+
+        private void Pg_Home_Loaded(object sender, RoutedEventArgs e)
+        {
+            SharedResourcesApp.SetPageRecursoNavigator(FrameNavegacaoPages);
+            PageNav = SharedResourcesApp._PageRecursoNavigator;
         }
 
         private void Btn_Caixa_Click(object sender, RoutedEventArgs e)
         {
+            PageNav.Navigate(typeof(Pg_Caixa));
+        }
 
+        private void Btn_Estoque_Click(object sender, RoutedEventArgs e)
+        {
+            PageNav.Navigate(typeof(Pg_Estoque));
+        }
+
+        private void Btn_Despesas_Click(object sender, RoutedEventArgs e)
+        {
+            PageNav.Navigate(typeof(Pg_Despesas));
+        }
+
+        private void Btn_Realatorios_Click(object sender, RoutedEventArgs e)
+        {
+            PageNav.Navigate(typeof(Pg_Relatorios));
         }
     }
 }

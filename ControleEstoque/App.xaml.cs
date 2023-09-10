@@ -43,6 +43,7 @@ namespace ControleEstoque
         {
             m_window = new MainWindow();
             m_window.Title = "Controle de Estoque - Renata";
+            m_window.AppWindow.TitleBar.IconShowOptions = Microsoft.UI.Windowing.IconShowOptions.HideIconAndSystemMenu;
             m_window.Activate();
         }
 

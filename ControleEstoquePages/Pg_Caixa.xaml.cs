@@ -1,3 +1,6 @@
+using ControleEstoqueCore.Database;
+using ControleEstoqueDB.Database;
+using ControleEstoqueImpl.Database;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -10,22 +13,46 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Xml.XPath;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
+namespace ControleEstoquePages;
 
-namespace ControleEstoquePages
+
+public sealed partial class Pg_Caixa : Page
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
-    public sealed partial class Pg_Caixa : Page
+    public DatabaseEstoqueContext DbEstoqueContext;
+
+    public Pg_Caixa()
     {
-        public Pg_Caixa()
+        this.InitializeComponent();
+        CreateDb();
+        AddItem();
+    }
+
+
+    public void CreateDb()
+    {
+        DbEstoqueContext = new DatabaseEstoqueContext
+            ("C:\\Users\\VictorSReis\\OneDrive\\Documentos\\ControleEstoqueRenata", "Estoque.db");
+    }
+
+    public void AddItem()
+    {
+        var NewProduto = new LayoutProduto()
         {
-            this.InitializeComponent();
-        }
+            IDProduto = 546,
+            NomeProduto = "Esmalte",
+            CustoProduto = 10.52f,
+            CustoVenda = 30.45f,
+            ValidadeProduto = "01:01:2023",
+            EstoqueProduto = 50
+        };
+        var ResultObj = DbEstoqueContext.Produtos.Any(x => x.IDProduto == 546);
+
+
+        var Result = DbEstoqueContext.Add(NewProduto);
+        DbEstoqueContext.SaveChanges(true);
     }
 }

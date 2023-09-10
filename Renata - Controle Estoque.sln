@@ -3,19 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34018.315
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControleEstoque", "ControleEstoque\ControleEstoque.csproj", "{3D27F019-4267-434F-90A6-38A2CB7C81A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ControleEstoque", "ControleEstoque\ControleEstoque.csproj", "{3D27F019-4267-434F-90A6-38A2CB7C81A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControleEstoqueSDK", "ControleEstoqueSDK\ControleEstoqueSDK.csproj", "{4FF0E7EE-127C-43A9-9C76-86E32756D775}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ControleEstoqueSDK", "ControleEstoqueSDK\ControleEstoqueSDK.csproj", "{4FF0E7EE-127C-43A9-9C76-86E32756D775}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControleEstoqueCore", "ControleEstoqueCore\ControleEstoqueCore.csproj", "{D2CF8786-4D5B-46BC-9154-79FB0A5C4704}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ControleEstoqueCore", "ControleEstoqueCore\ControleEstoqueCore.csproj", "{D2CF8786-4D5B-46BC-9154-79FB0A5C4704}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControleEstoqueImpl", "ControleEstoqueImpl\ControleEstoqueImpl.csproj", "{2C6049DF-EF98-4888-B9E3-A22F5B1A605B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ControleEstoqueImpl", "ControleEstoqueImpl\ControleEstoqueImpl.csproj", "{2C6049DF-EF98-4888-B9E3-A22F5B1A605B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControleEstoqueResources", "ControleEstoqueResources\ControleEstoqueResources.csproj", "{1DEA77E5-C8AD-4201-87B3-FB6B74405347}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ControleEstoqueResources", "ControleEstoqueResources\ControleEstoqueResources.csproj", "{1DEA77E5-C8AD-4201-87B3-FB6B74405347}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControleEstoquePages", "ControleEstoquePages\ControleEstoquePages.csproj", "{4C9EBCB4-9AAF-4515-A9D2-622C6764B56E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ControleEstoquePages", "ControleEstoquePages\ControleEstoquePages.csproj", "{4C9EBCB4-9AAF-4515-A9D2-622C6764B56E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControleEstoqueDB", "ControleEstoqueDB\ControleEstoqueDB.csproj", "{34A61705-7C32-45E0-8F4A-AC8445C5C618}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ControleEstoqueDB", "ControleEstoqueDB\ControleEstoqueDB.csproj", "{34A61705-7C32-45E0-8F4A-AC8445C5C618}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -8,14 +8,14 @@
   IgnorableNamespaces="uap rescap">
 
   <Identity
-    Name="436f6274-2651-4134-8784-7f62b80c352e"
+    Name="ControleEstoqueRenata"
     Publisher="CN=VictorSReis"
     Version="1.0.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="436f6274-2651-4134-8784-7f62b80c352e" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>ControleEstoque</DisplayName>
+    <DisplayName>Controle Estoque - Renata</DisplayName>
     <PublisherDisplayName>VictorSReis</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -34,18 +34,24 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
-        DisplayName="ControleEstoque"
-        Description="ControleEstoque"
+        DisplayName="Controle Estoque - Renata"
+        Description="Controle de estoque para os produtos de Renata."
         BackgroundColor="transparent"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png">
-        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" />
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"  Square71x71Logo="Assets\SmallTile.png" Square310x310Logo="Assets\LargeTile.png"/>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
+        <uap:InitialRotationPreference>
+          <uap:Rotation Preference="landscape"/></uap:InitialRotationPreference>
       </uap:VisualElements>
     </Application>
   </Applications>
 
   <Capabilities>
     <rescap:Capability Name="runFullTrust" />
+    <uap:Capability Name="removableStorage"/>
+    <Capability Name="privateNetworkClientServer"/>
+    <uap:Capability Name="userAccountInformation"/>
+    <Capability Name="internetClient"/>
   </Capabilities>
 </Package>
