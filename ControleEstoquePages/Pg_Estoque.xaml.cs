@@ -1,3 +1,4 @@
+using ControleEstoqueDataGrid;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -26,6 +27,24 @@ namespace ControleEstoquePages
         public Pg_Estoque()
         {
             this.InitializeComponent();
+            ConfigureShadownPage();
+            
+        }
+
+
+
+
+
+        private void ConfigureShadownPage()
+        {
+            
+            GridPainelSuperior.Translation = new System.Numerics.Vector3(0, 0, 10);
+            GridAreaConteudo.Translation = new System.Numerics.Vector3(0, 0, 20);
+        }
+
+        private void Btn_TesteAddItem_Click(object sender, RoutedEventArgs e)
+        {
+            DataGridControle.AddItem(new DataGridRow());
         }
     }
 }

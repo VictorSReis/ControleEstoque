@@ -1,6 +1,6 @@
 using ControleEstoqueCore.Database;
 using ControleEstoqueDB.Database;
-using ControleEstoqueImpl.Database;
+using ControleEstoqueUserControls;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -27,8 +27,10 @@ public sealed partial class Pg_Caixa : Page
     public Pg_Caixa()
     {
         this.InitializeComponent();
-        CreateDb();
-        AddItem();
+        ShowItem();
+        //CreateDb();
+        //AddItem();
+        
     }
 
 
@@ -54,5 +56,13 @@ public sealed partial class Pg_Caixa : Page
 
         var Result = DbEstoqueContext.Add(NewProduto);
         DbEstoqueContext.SaveChanges(true);
+    }
+
+    public void ShowItem()
+    {
+        Usr_Ctl_Item_Produto_Vendido NewItem = new();
+        Usr_Ctl_Item_Produto_Procura_Caixa NewItemProcura = new();
+        ListViewUltimasVendas.Items.Add(NewItem);
+        ListViewResultadosProcuraProduto.Items.Add(NewItemProcura);
     }
 }

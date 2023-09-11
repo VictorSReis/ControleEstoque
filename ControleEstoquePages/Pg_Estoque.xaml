@@ -4,12 +4,74 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:ControleEstoquePages"
+    xmlns:DataGridControle="using:ControleEstoqueDataGrid"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid>
+    <Page.Resources>
+        <ResourceDictionary Source="ms-appx:///ControleEstoqueResources//Styles/GlobalResources.xaml"/>
+    </Page.Resources>
 
+    <Grid x:Name="GridPrincipal"
+          Background="#FFE3E3E3">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid x:Name="GridPainelSuperior" 
+              Grid.Row="0" 
+              BorderThickness="0,0,0,1"
+              BorderBrush="{StaticResource GlobalResource_PainelBrush}"
+              Background="{StaticResource GlobalResource_PainelColor}"
+              Canvas.ZIndex="99">
+            <TextBlock x:Name="Txt_NomePage" Text="ESTOQUE" 
+                       HorizontalAlignment="Center" 
+                       VerticalAlignment="Center"
+                       FontSize="40"
+                       FontStretch="Condensed"
+                       FontWeight="Bold"
+                       Foreground="White"/>
+
+            <Grid.Shadow>
+                <ThemeShadow/>
+            </Grid.Shadow>
+        </Grid>
+
+        <Grid x:Name="GridAreaConteudo"
+              Background="White"
+              Margin="8"
+              Canvas.ZIndex="2"
+              CornerRadius="8"
+              Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="90"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Grid x:Name="GridFuncoesBaseEstoque"
+                  Grid.Row="0">
+                <Button x:Name="Btn_TesteAddItem" Content="ADD" Click="Btn_TesteAddItem_Click"/>
+            </Grid>
+
+            <Grid x:Name="GridViewEstoque"
+              Background="Transparent"
+              Grid.Row="1">
+
+                <DataGridControle:Usr_Ctl_Controle_Estoque_Data_Grid 
+                    x:Name="DataGridControle"
+                    Background="Black"
+                    Margin="5">
+
+                </DataGridControle:Usr_Ctl_Controle_Estoque_Data_Grid>
+            </Grid>
+
+            <Grid.Shadow>
+                <ThemeShadow/>
+            </Grid.Shadow>
+        </Grid>
+        
     </Grid>
 </Page>

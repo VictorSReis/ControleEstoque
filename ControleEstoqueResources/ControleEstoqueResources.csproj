@@ -6,14 +6,15 @@
     <RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
     <UseWinUI>true</UseWinUI>
   </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Styles\GlobalResources.xaml" />
+    <None Remove="Styles\ListViewResourceProdutoVendido.xaml" />
+    <None Remove="Styles\ListViewResourceSearchProdutoCaixa.xaml" />
+  </ItemGroup>
 
   <ItemGroup>
       <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.3.230602002" />
       <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Styles\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -40,5 +41,24 @@
     <Content Update="Images\img_search_produto.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Styles\ListViewResourceProdutoVendido.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\ListViewResourceSearchProdutoCaixa.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\GlobalResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Configurations\" />
+    <Folder Include="NovaPasta\" />
   </ItemGroup>
 </Project>

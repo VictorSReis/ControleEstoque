@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UserControl
+    x:Class="ControleEstoqueDataGrid.DataGridRow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ControleEstoqueDataGrid"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Height="36" MaxHeight="36"
+    Margin="0,6,2,0">
+
+    <Grid x:Name="GridPrincipal" 
+          CornerRadius="8"
+          Height="36" MaxHeight="36"
+          Background="#FFF0F0F0"
+          PointerEntered="GridPrincipal_PointerEntered"
+          PointerExited="GridPrincipal_PointerExited"
+          Tapped="GridPrincipal_Tapped">
+        <Grid.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="ResourceDictionaryDataGrid.xaml"/>
+                    <ResourceDictionary Source="Styles.xaml"/>
+                </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
+        </Grid.Resources>
+
+        <TeachingTip x:Name="ToggleThemeTeachingTip1"
+                         Target="{x:Bind TextBox_NomeProduto}"
+                         Title="Alteração de dados"
+                         Subtitle="Salvar os dados?">
+            <TeachingTip.IconSource>
+                <SymbolIconSource Symbol="Save" />
+            </TeachingTip.IconSource>
+        </TeachingTip>
+
+
+        <Grid x:Name="GridDataGridItem">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100" MaxWidth="100"/>
+                <ColumnDefinition Width="400" MaxWidth="600"/>
+                <ColumnDefinition Width="100" MaxWidth="400"/>
+                <ColumnDefinition Width="100" MaxWidth="400"/>
+                <ColumnDefinition Width="140" MaxWidth="400"/>
+                <ColumnDefinition Width="100" MaxWidth="400"/>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+
+            <Line Y1="0" Y2="{x:Bind GridPrincipal.Height}"  
+                  StrokeThickness="1"
+                  Grid.Column="0" 
+                  Stroke="{ThemeResource GlobalResource_DataGrid_SeparatorBrush}"
+                  HorizontalAlignment="Right"/>
+            <Line Y1="0" Y2="{x:Bind GridPrincipal.Height}"
+                  StrokeThickness="1"
+                  Grid.Column="1" 
+                  Stroke="{ThemeResource GlobalResource_DataGrid_SeparatorBrush}"
+                  HorizontalAlignment="Right"/>
+            <Line Y1="0" Y2="{x:Bind GridPrincipal.Height}"  
+                  StrokeThickness="1"
+                  Grid.Column="2" 
+                  Stroke="{ThemeResource GlobalResource_DataGrid_SeparatorBrush}"
+                  HorizontalAlignment="Right"/>
+            <Line Y1="0" Y2="{x:Bind GridPrincipal.Height}"  
+                  StrokeThickness="1"
+                  Grid.Column="3" 
+                  Stroke="{ThemeResource GlobalResource_DataGrid_SeparatorBrush}"
+                  HorizontalAlignment="Right"/>
+            <Line Y1="0" Y2="{x:Bind GridPrincipal.Height}"
+                  StrokeThickness="1"
+                  Grid.Column="4" 
+                  Stroke="{ThemeResource GlobalResource_DataGrid_SeparatorBrush}"
+                  HorizontalAlignment="Right"/>
+            <Line Y1="0" Y2="{x:Bind GridPrincipal.Height}" 
+                  StrokeThickness="1"
+                  Grid.Column="5"
+                  Stroke="{ThemeResource GlobalResource_DataGrid_SeparatorBrush}"
+                  HorizontalAlignment="Right"/>
+
+            <TextBlock x:Name="TextBlock_IdProduto" 
+                       Text="0000000" 
+                       Foreground="{StaticResource GlobalResource_DataGrid_ItemTextForegroundBrush}" 
+                       Grid.Column="0"
+                       TextAlignment="Center" IsTextSelectionEnabled="True"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
+
+            <TextBox x:Name="TextBox_NomeProduto" 
+                     Text="ESMALTE PRETO ULTRA POTENTE COM VARISTOR DE PROTECAO" 
+                     Foreground="{StaticResource GlobalResource_DataGrid_ItemTextForegroundBrush}" 
+                     Style="{ThemeResource DataGridTextBox}"
+                     Width="400"
+                     Height="36"
+                     Grid.Column="1"
+                     TextWrapping="Wrap" 
+                     TextAlignment="Center"
+                     HorizontalAlignment="Center"
+                     VerticalAlignment="Center"
+                     KeyUp="TextBox_NomeProduto_KeyUp"
+                     ToolTipService.ToolTip="{x:Bind TextBox_NomeProduto.Text}"/>
+
+            <TextBox x:Name="TextBox_CustoProduto" 
+                     Text="R$ 250,00" 
+                     Foreground="{StaticResource GlobalResource_DataGrid_ItemTextForegroundBrush}" 
+                     Style="{ThemeResource DataGridTextBox}"
+                     Width="400"
+                     Height="36"
+                     Grid.Column="2"
+                     TextWrapping="Wrap" 
+                     TextAlignment="Center"
+                     HorizontalAlignment="Center"
+                     VerticalAlignment="Center"
+                     ToolTipService.ToolTip="{x:Bind TextBox_CustoProduto.Text}"/>
+
+            <TextBox x:Name="TextBox_PrecoVenda" 
+                     Text="R$ 250,00" 
+                     Foreground="{StaticResource GlobalResource_DataGrid_ItemTextForegroundBrush}" 
+                     Style="{ThemeResource DataGridTextBox}"
+                     Width="400"
+                     Height="36"
+                     Grid.Column="3"
+                     TextWrapping="Wrap" 
+                     TextAlignment="Center"
+                     HorizontalAlignment="Center"
+                     VerticalAlignment="Center"
+                     ToolTipService.ToolTip="{x:Bind TextBox_PrecoVenda.Text}"/>
+
+            <TextBox x:Name="TextBox_Validade" 
+                     Text="15/03/2023"
+                     Foreground="{StaticResource GlobalResource_DataGrid_ItemTextForegroundBrush}" 
+                     Style="{ThemeResource DataGridTextBox}"
+                     Width="400"
+                     Height="36"
+                     Grid.Column="4"
+                     TextWrapping="Wrap" 
+                     TextAlignment="Center"
+                     HorizontalAlignment="Center"
+                     VerticalAlignment="Center"
+                     ToolTipService.ToolTip="{x:Bind TextBox_Validade.Text}"/>
+
+        </Grid>
+    </Grid>
+</UserControl>

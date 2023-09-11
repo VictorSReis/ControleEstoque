@@ -9,22 +9,24 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
+    <Page.Resources>
+        <ResourceDictionary Source="ms-appx:///ControleEstoqueResources//Styles/GlobalResources.xaml"/>
+    </Page.Resources>
+
     <Grid x:Name="GridPrincipal">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="82"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <SplitView x:Name="PanelSplit" 
-                   IsPaneOpen="True"
-                   OpenPaneLength="80"
-                   CompactPaneLength="64"
-                   DisplayMode="CompactInline"
-                   Canvas.ZIndex="5"
-                   CornerRadius="0,8,8,0">
+        <Grid x:Name="PanelSplit" 
+              Background="{StaticResource GlobalResource_PainelColor}"
+              Canvas.ZIndex="5"
+              BorderThickness="0,0,1,0"
+              BorderBrush="{StaticResource GlobalResource_PainelBrush}"
+              CornerRadius="0,0,8,0">
 
-            <SplitView.Pane>
-                <Grid x:Name="GridPanelSplitView" Background="#FFF4EDF2">
+                <Grid x:Name="GridPanelSplitView" Background="Transparent">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
@@ -35,6 +37,7 @@
                                 HorizontalAlignment="Center" 
                                 Margin="2,10,2,0" 
                                 Background="Transparent"
+                                BorderBrush="Transparent"
                                 Click="Btn_Caixa_Click">
 
                             <Image Source="ms-appx:///ControleEstoqueResources/Images/img_caixa.png"
@@ -45,8 +48,9 @@
                                 HorizontalAlignment="Center" 
                                 Margin="2,20,2,0" 
                                 Background="Transparent"
+                                BorderBrush="Transparent"
                                 Click="Btn_Estoque_Click">
-                            
+
                             <Image Source="ms-appx:///ControleEstoqueResources/Images/img_estoque.png"
                                    Height="50" Width="50" Stretch="Uniform"/>
                         </Button>
@@ -55,6 +59,7 @@
                                 HorizontalAlignment="Center"
                                 Margin="2,20,2,0" 
                                 Background="Transparent"
+                                BorderBrush="Transparent"
                                 Click="Btn_Despesas_Click">
 
                             <Image Source="ms-appx:///ControleEstoqueResources/Images/img_despesas.png"
@@ -65,6 +70,7 @@
                                 HorizontalAlignment="Center"
                                 Margin="2,20,2,0" 
                                 Background="Transparent"
+                                BorderBrush="Transparent"
                                 Click="Btn_Realatorios_Click">
 
                             <Image Source="ms-appx:///ControleEstoqueResources/Images/img_relatorio.png"
@@ -72,18 +78,14 @@
                         </Button>
                     </StackPanel>
                 </Grid>
-            </SplitView.Pane>
 
-            <SplitView.Shadow>
-                <ThemeShadow />
-            </SplitView.Shadow>
-        </SplitView>
+
+        </Grid>
 
         <Grid x:Name="GridConteudoPages"             
               Background="#F9FAFC"
               Grid.Column="1"
-              Margin="5,20,5,5"
-              CornerRadius="8"
+              CornerRadius="0,0,8,8"
               Canvas.ZIndex="5">
             <Frame x:Name="FrameNavegacaoPages">
                 

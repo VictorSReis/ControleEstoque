@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Light">
+            <SolidColorBrush x:Key="ListViewItemBackground" Color="#DEF1E4"/>
+            <SolidColorBrush x:Key="ListViewItemBackgroundPointerOver" Color="#D0E9DA"/>
+            <SolidColorBrush x:Key="ListViewItemBackgroundSelected" Color="#D0E9DA"/>
+            <SolidColorBrush x:Key="ListViewItemBackgroundSelectedPointerOver" Color="#D0E9DA"/>
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
+
+</ResourceDictionary>

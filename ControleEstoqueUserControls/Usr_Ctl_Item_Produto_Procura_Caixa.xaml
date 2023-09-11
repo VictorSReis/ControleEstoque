@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UserControl
+    x:Class="ControleEstoqueUserControls.Usr_Ctl_Item_Produto_Procura_Caixa"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ControleEstoqueUserControls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="Transparent">
+
+    <UserControl.Resources>
+        <ResourceDictionary Source="ms-appx:///ControleEstoqueResources//Styles/GlobalResources.xaml"/>
+    </UserControl.Resources>
+
+    <Grid x:Name="GridPrincipal">
+        <StackPanel x:Name="PanelItems" Orientation="Vertical">
+            <TextBlock Text="54879" Foreground="#FF452F49" FontWeight="Bold" FontSize="15"/>
+            <TextBlock Text="Esmalte Vermelho" Foreground="#FF452F49" FontWeight="Bold" FontSize="15"/>
+            <TextBlock Text="R$ 20,54" Foreground="#FF452F49" FontWeight="Bold" FontSize="15"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

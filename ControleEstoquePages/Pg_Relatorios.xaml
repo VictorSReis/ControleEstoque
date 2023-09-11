@@ -9,7 +9,27 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid>
+    <Page.Resources>
+        <ResourceDictionary Source="ms-appx:///ControleEstoqueResources//Styles/GlobalResources.xaml"/>
+    </Page.Resources>
 
+    <Grid x:Name="GridPrincipal">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition />
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid x:Name="GridPainelSuperior" 
+              Grid.Row="0" 
+              Background="{StaticResource GlobalResource_PainelColor}">
+            <TextBlock x:Name="Txt_NomePage" Text="RELATÓRIOS" 
+                       HorizontalAlignment="Center" 
+                       VerticalAlignment="Center"
+                       FontSize="40"
+                       FontStretch="Condensed"
+                       FontWeight="Bold"
+                       Foreground="White"/>
+        </Grid>
     </Grid>
 </Page>
