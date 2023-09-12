@@ -26,15 +26,19 @@
             </ResourceDictionary>
         </Grid.Resources>
 
-        <TeachingTip x:Name="ToggleThemeTeachingTip1"
-                         Target="{x:Bind TextBox_NomeProduto}"
-                         Title="Alteração de dados"
-                         Subtitle="Salvar os dados?">
+        <TeachingTip x:Name="TeachingTip_ShowMessageSaveAlteracaoProduto"
+                     Title="Alteração de dados"
+                     Subtitle="Deseja salvar as alterações no banco de dados?">
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="Btn_TeachingTip_Salvar" Margin="2" Content="Salvar" Click="Btn_TeachingTip_Salvar_Click"/>
+                <Button x:Name="Btn_TeachingTip_Fechar" Margin="2" Content="Fechar" Click="Btn_TeachingTip_Fechar_Click"/>
+                <Button x:Name="Btn_TeachingTip_Cancelar" Margin="2" Content="Cancelar" Click="Btn_TeachingTip_Cancelar_Click"/>
+            </StackPanel>
+
             <TeachingTip.IconSource>
                 <SymbolIconSource Symbol="Save" />
             </TeachingTip.IconSource>
         </TeachingTip>
-
 
         <Grid x:Name="GridDataGridItem">
             <Grid.ColumnDefinitions>
@@ -80,65 +84,88 @@
                   HorizontalAlignment="Right"/>
 
             <TextBlock x:Name="TextBlock_IdProduto" 
-                       Text="0000000" 
+                       Text="" 
                        Foreground="{StaticResource GlobalResource_DataGrid_ItemTextForegroundBrush}" 
+                       Width="Auto"
                        Grid.Column="0"
                        TextAlignment="Center" IsTextSelectionEnabled="True"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"/>
 
             <TextBox x:Name="TextBox_NomeProduto" 
-                     Text="ESMALTE PRETO ULTRA POTENTE COM VARISTOR DE PROTECAO" 
+                     Text="" 
                      Foreground="{StaticResource GlobalResource_DataGrid_ItemTextForegroundBrush}" 
                      Style="{ThemeResource DataGridTextBox}"
-                     Width="400"
+                     Width="Auto"
                      Height="36"
                      Grid.Column="1"
                      TextWrapping="Wrap" 
                      TextAlignment="Center"
                      HorizontalAlignment="Center"
                      VerticalAlignment="Center"
-                     KeyUp="TextBox_NomeProduto_KeyUp"
-                     ToolTipService.ToolTip="{x:Bind TextBox_NomeProduto.Text}"/>
+                     KeyUp="Interation_Editable_RowContent_KeyUp"
+                     TextChanged="Interation_Editable_Content_TextChanged"
+                     ToolTipService.ToolTip=""/>
 
             <TextBox x:Name="TextBox_CustoProduto" 
-                     Text="R$ 250,00" 
+                     Text="" 
                      Foreground="{StaticResource GlobalResource_DataGrid_ItemTextForegroundBrush}" 
                      Style="{ThemeResource DataGridTextBox}"
-                     Width="400"
+                     Width="Auto"
                      Height="36"
                      Grid.Column="2"
                      TextWrapping="Wrap" 
                      TextAlignment="Center"
                      HorizontalAlignment="Center"
                      VerticalAlignment="Center"
-                     ToolTipService.ToolTip="{x:Bind TextBox_CustoProduto.Text}"/>
+                     KeyUp="Interation_Editable_RowContent_KeyUp" 
+                     TextChanged="Interation_Editable_Content_TextChanged"
+                     ToolTipService.ToolTip=""/>
 
-            <TextBox x:Name="TextBox_PrecoVenda" 
-                     Text="R$ 250,00" 
+            <TextBox x:Name="TextBox_PrecoVendaProduto" 
+                     Text="" 
                      Foreground="{StaticResource GlobalResource_DataGrid_ItemTextForegroundBrush}" 
                      Style="{ThemeResource DataGridTextBox}"
-                     Width="400"
+                     Width="Auto"
                      Height="36"
                      Grid.Column="3"
-                     TextWrapping="Wrap" 
                      TextAlignment="Center"
                      HorizontalAlignment="Center"
                      VerticalAlignment="Center"
-                     ToolTipService.ToolTip="{x:Bind TextBox_PrecoVenda.Text}"/>
+                     TextWrapping="Wrap"
+                     KeyUp="Interation_Editable_RowContent_KeyUp" 
+                     TextChanged="Interation_Editable_Content_TextChanged"
+                     ToolTipService.ToolTip=""/>
 
-            <TextBox x:Name="TextBox_Validade" 
-                     Text="15/03/2023"
+            <TextBox x:Name="TextBox_ValidadeProduto" 
+                     Text=""
                      Foreground="{StaticResource GlobalResource_DataGrid_ItemTextForegroundBrush}" 
                      Style="{ThemeResource DataGridTextBox}"
-                     Width="400"
+                     Width="Auto"
                      Height="36"
                      Grid.Column="4"
                      TextWrapping="Wrap" 
                      TextAlignment="Center"
                      HorizontalAlignment="Center"
                      VerticalAlignment="Center"
-                     ToolTipService.ToolTip="{x:Bind TextBox_Validade.Text}"/>
+                     KeyUp="Interation_Editable_RowContent_KeyUp" 
+                     TextChanged="Interation_Editable_Content_TextChanged"
+                     ToolTipService.ToolTip=""/>
+
+            <TextBox x:Name="TextBox_QtdEstoqueProduto" 
+                     Text=""
+                     Foreground="{StaticResource GlobalResource_DataGrid_ItemTextForegroundBrush}" 
+                     Style="{ThemeResource DataGridTextBox}"
+                     Width="Auto"
+                     Height="36"
+                     Grid.Column="5"
+                     TextWrapping="Wrap" 
+                     TextAlignment="Center"
+                     HorizontalAlignment="Center"
+                     VerticalAlignment="Center"
+                     KeyUp="Interation_Editable_RowContent_KeyUp" 
+                     TextChanged="Interation_Editable_Content_TextChanged"
+                     ToolTipService.ToolTip=""/>
 
         </Grid>
     </Grid>

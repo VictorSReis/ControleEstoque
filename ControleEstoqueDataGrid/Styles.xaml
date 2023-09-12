@@ -24,7 +24,7 @@
                 <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False" />
                 <Setter Property="MinHeight" Value="{ThemeResource TextControlThemeMinHeight}" />
                 <Setter Property="MinWidth" Value="{ThemeResource TextControlThemeMinWidth}" />
-                <Setter Property="Padding" Value="2,0,2,0" />
+                <Setter Property="Padding" Value="{ThemeResource TextControlThemePadding}" />
                 <Setter Property="UseSystemFocusVisuals" Value="{ThemeResource IsApplicationFocusVisualKindReveal}" />
                 <Setter Property="ContextFlyout" Value="{StaticResource TextControlCommandBarContextFlyout}" />
                 <Setter Property="SelectionFlyout" Value="{StaticResource TextControlCommandBarSelectionFlyout}" />

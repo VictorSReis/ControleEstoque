@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ControleEstoqueDB", "Contro
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ControleEstoqueUserControls", "ControleEstoqueUserControls\ControleEstoqueUserControls.csproj", "{CB968197-BA64-4C4E-97E4-5BF2087FDE34}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControleEstoqueDataGrid", "ControleEstoqueDataGrid\ControleEstoqueDataGrid.csproj", "{BD9B3464-11D4-4EBE-815F-1A660AF36CE1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ControleEstoqueDataGrid", "ControleEstoqueDataGrid\ControleEstoqueDataGrid.csproj", "{BD9B3464-11D4-4EBE-815F-1A660AF36CE1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

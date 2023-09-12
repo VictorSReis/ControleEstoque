@@ -21,6 +21,9 @@ public sealed class NavigatePage : INavigatePage
 
     public bool Navigate(Type pTypePage)
     {
+        if(pTypePage is not null)
+            _CurrentPage = pTypePage;
+
         return _Frame.Navigate(pTypePage);
     }
 }

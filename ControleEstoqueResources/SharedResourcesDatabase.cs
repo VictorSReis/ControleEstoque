@@ -9,8 +9,10 @@ public static class SharedResourcesDatabase
     
     public static IControleDatabaseCaixa DatabaseCaixa { get; private set; }
 
-    public static ObservableCollection<ILayoutProduto> Estoque { get;}
 
+    public static void SetDatabaseEstoque(IControleDatabaseEstoque pDatabase)
+    { DatabaseEstoque = pDatabase; }
 
-
+    public static void SetDatabaseCaixa(IControleDatabaseCaixa pDatabase)
+    { DatabaseCaixa = pDatabase; }
 }
