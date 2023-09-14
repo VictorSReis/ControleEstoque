@@ -15,4 +15,15 @@ public class LayoutProduto : ILayoutProduto
     public float CustoVenda { get; set; }
     public string ValidadeProduto { get; set; }
     public int EstoqueProduto { get; set; }
+
+    public bool ValidarProduto()
+    {
+        return
+            IDProduto >= 0 &
+            !string.IsNullOrEmpty(NomeProduto) &
+            CustoProduto >= 0 &
+            CustoVenda >= 0 &
+            !string.IsNullOrEmpty(ValidadeProduto) &
+            EstoqueProduto >= 0;
+    }
 }

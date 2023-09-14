@@ -6,6 +6,8 @@ namespace ControleEstoqueCore.Database;
 
 public interface IControleDatabaseEstoque: IControleDatabase
 {
+    public bool AdicionarProduto(ILayoutProduto pProduto);
+
     public bool UpdateProduto(ILayoutProduto pProduto);
 
     public bool ProdutoExiste(int pIDProduto);
@@ -25,6 +27,8 @@ public interface IControleDatabaseEstoque: IControleDatabase
     public IEnumerable<ILayoutProduto> GetProdutos();
 
     public Task<int> GetCountProdutos();
+
+    public bool DeletarProduto(ILayoutProduto pProduto);
 
     public void SaveChanges();
 

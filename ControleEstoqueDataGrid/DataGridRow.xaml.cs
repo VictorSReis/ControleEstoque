@@ -7,6 +7,7 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Threading.Tasks;
 
@@ -110,6 +111,35 @@ public sealed partial class DataGridRow : UserControl
         }
     }
 
+    private void Interation_Controle_Lost_Focus_For_Update(object sender, RoutedEventArgs e)
+    {
+        //VERIFICA SE É UM ELEMENTO EDITÁVEL
+        bool ElementEditable = PrivateFrameworkElementIsEditableTextBox(sender);
+        if (!ElementEditable)
+            return;
+
+        //OBTÉM A INSTANCE DO TIPO CORRETO
+        var TxbContent = PrivateGetTextBox(sender);
+
+        //VERIFICA SE HOUVE MODIFICAÇÃO
+        bool ConteudoRowDiferenteProduto = PrivateValidateChangedContent
+            (TxbContent.Tag as string, TxbContent.Text);
+        if (!ConteudoRowDiferenteProduto)
+            return;
+
+        //UPDATE PRODUTO INSTANCE
+        bool ResultUpdate = PrivateUpdateProdutoInstance(sender as TextBox);
+        if (!ResultUpdate)
+            return;
+
+        //CARREGA NOVAMENTE OS DADOS PARA OS CAMPOS
+        PrivateLoadInfoProduto();
+        PrivateUpdateToolTipElements();
+
+        //SEND NOTIFY FOR UPDATE
+        PrivateNotifyProdutoChanged();
+    }
+
     private void Btn_TeachingTip_Salvar_Click(object sender, RoutedEventArgs e)
     {
         //O USUÁRIO DESEJA SALVAR.
@@ -143,6 +173,9 @@ public sealed partial class DataGridRow : UserControl
 
     private void GridPrincipal_PointerEntered(object sender, PointerRoutedEventArgs e)
     {
+        if (Produto.EstoqueProduto == 0)
+            return;
+
         if (!ItemIsSelected)
             GridPrincipal.Background = new
                 SolidColorBrush(Util.CreateColorFromHex("0xFFE3E3E3"));
@@ -150,6 +183,9 @@ public sealed partial class DataGridRow : UserControl
 
     private void GridPrincipal_PointerExited(object sender, PointerRoutedEventArgs e)
     {
+        if (Produto.EstoqueProduto == 0)
+            return;
+
         if (!ItemIsSelected)
             GridPrincipal.Background = new
                 SolidColorBrush(Util.CreateColorFromHex("0xFFF0F0F0"));
@@ -226,7 +262,6 @@ public sealed partial class DataGridRow : UserControl
     }
     #endregion
 
-
     #region PRIVATE
     private void PrivateSelectRow()
     {
@@ -242,6 +277,13 @@ public sealed partial class DataGridRow : UserControl
             SolidColorBrush(Util.CreateColorFromHex("0xFFF0F0F0"));
     }
 
+    private void PrivateSetColorRedEstoqueZerado()
+    {
+        if(Produto.EstoqueProduto == 0)
+            GridPrincipal.Background = new
+                SolidColorBrush(Util.CreateColorFromHex("0xFFFABBA6"));
+    }
+
     private bool PrivateUpdateProdutoInstance
         (TextBox pTextBox)
     {
@@ -254,11 +296,11 @@ public sealed partial class DataGridRow : UserControl
             }
             else if (string.Equals(pTextBox.Name, TextBox_Name_CustoProduto))
             {
-                Produto.CustoProduto = float.Parse(pTextBox.Text, CultureInfo.CurrentCulture);
+                Produto.CustoProduto = float.Parse(pTextBox.Text, NumberStyles.Currency, CultureInfo.CurrentCulture);
             }
             else if (string.Equals(pTextBox.Name, TextBox_Name_PrecoVendaProduto))
             {
-                Produto.CustoVenda = float.Parse(pTextBox.Text, CultureInfo.CurrentCulture);
+                Produto.CustoVenda = float.Parse(pTextBox.Text, NumberStyles.Currency, CultureInfo.CurrentCulture);
             }
             else if (string.Equals(pTextBox.Name, TextBox_Name_ValidadeProduto))
             {
@@ -266,7 +308,7 @@ public sealed partial class DataGridRow : UserControl
             }
             else if (string.Equals(pTextBox.Name, TextBox_Name_QtdEstoqueProduto))
             {
-                Produto.EstoqueProduto = int.Parse(pTextBox.Text, CultureInfo.InvariantCulture.NumberFormat);
+                Produto.EstoqueProduto = int.Parse(pTextBox.Text, NumberStyles.Number, CultureInfo.InvariantCulture.NumberFormat);
             }
             else
             {
@@ -301,6 +343,9 @@ public sealed partial class DataGridRow : UserControl
 
         //UPDATE TOOL TIP
         PrivateUpdateToolTipElements();
+
+        //CHECK ESTOQUE ZERADO
+        PrivateSetColorRedEstoqueZerado();
     }
 
     private void PrivateUpdateToolTipElements()
@@ -399,19 +444,4 @@ public sealed partial class DataGridRow : UserControl
         (object pFrameworkElement)
         => pFrameworkElement as TextBox;
     #endregion
-
-    private void Interation_Editable_Content_TextChanged(object sender, TextChangedEventArgs e)
-    {
-        //UPDATE PRODUTO INSTANCE
-        bool ResultUpdate = PrivateUpdateProdutoInstance(sender as TextBox);
-        if (!ResultUpdate)
-            return;
-
-        //CARREGA NOVAMENTE OS DADOS PARA OS CAMPOS
-        //PrivateLoadInfoProduto();
-        PrivateUpdateToolTipElements();
-
-        //SEND NOTIFY FOR UPDATE
-        PrivateNotifyProdutoChanged();
-    }
 }

@@ -55,6 +55,17 @@ public sealed class ControleDatabaseEstoque : IControleDatabaseEstoque
     #endregion
 
     #region IControleDatabaseEstoque
+    public bool AdicionarProduto(ILayoutProduto pProduto)
+    {
+        var ResultAdd = _DbContext.Add<LayoutProduto>((LayoutProduto)pProduto);
+        _DbContext.SaveChanges();
+
+        //CHECK ITEM ADDED.
+        bool ResultItemAdded = _DbContext.Produtos.Where(x => x.IDProduto == pProduto.IDProduto).Any();
+
+        return ResultItemAdded;
+    }
+
     public bool UpdateProduto(ILayoutProduto pProduto)
     {
         bool ResultOp = false;
@@ -121,6 +132,14 @@ public sealed class ControleDatabaseEstoque : IControleDatabaseEstoque
         return await _DbContext.Produtos.CountAsync();
     }
 
+    public bool DeletarProduto(ILayoutProduto pProduto)
+    {
+        var Result = _DbContext.Remove<LayoutProduto>((LayoutProduto)pProduto);
+        _DbContext.SaveChanges();
+
+        return (Result.State == EntityState.Detached) | (Result.State == EntityState.Deleted);
+    }
+
     public void SaveChanges()
     {
         _DbContext.SaveChanges();
@@ -134,5 +153,6 @@ public sealed class ControleDatabaseEstoque : IControleDatabaseEstoque
         _DbContext.Dispose();
         _DbContext = null;
     }
+
     #endregion
 }

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="ControleEstoquePages.PgContentDialogAddNewProdutoStyle"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ControleEstoquePages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="Transparent">
+
+    <Grid>
+        <StackPanel>
+            
+            <!--DADOS PARA CADASTRO-->
+            
+            <TextBox x:Name="Txb_IDProduto" Width="180" Header="ID PRODUTO:"/>
+            <TextBox x:Name="Txb_NomeProduto" Width="300" Header="NOME DO PRODUTO:" Margin="0,10,0,0"/>
+            <TextBox x:Name="Txb_CustoProduto" Width="300" Header="CUSTO DO PRODUTO:" Margin="0,10,0,0"
+                     LostFocus="Txb_CustoProduto_LostFocus"/>
+            <TextBox x:Name="Txb_PrecoVenda" Width="300" Header="PREÇO DE VENDA:" Margin="0,10,0,0"
+                     LostFocus="Txb_PrecoVenda_LostFocus"/>
+            <DatePicker x:Name="DatePicker_ValidadeProduto" Width="300" Header="VALIDADE:" Margin="10,10,0,0"/>
+            <TextBox x:Name="Txb_QtdProduto" Width="300" Header="ESTOQUE:" Margin="0,10,0,0"/>
+           
+        </StackPanel>
+    </Grid>
+</Page>

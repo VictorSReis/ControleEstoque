@@ -13,17 +13,17 @@
         <ResourceDictionary Source="ms-appx:///ControleEstoqueResources//Styles/GlobalResources.xaml"/>
     </Page.Resources>
 
-    <Grid x:Name="GridPrincipal">
+    <Grid x:Name="GridPrincipal"
+          Background="#FFE3E3E3">
         <Grid.RowDefinitions>
             <RowDefinition Height="60"/>
-            <RowDefinition />
             <RowDefinition/>
         </Grid.RowDefinitions>
 
         <Grid x:Name="GridPainelSuperior" 
               Grid.Row="0" 
               Background="{StaticResource GlobalResource_PainelColor}">
-            <TextBlock x:Name="Txt_NomePage" Text="DESPESAS" 
+            <TextBlock x:Name="Txt_NomePage" Text="CAIXA" 
                        HorizontalAlignment="Center" 
                        VerticalAlignment="Center"
                        FontSize="40"
@@ -32,5 +32,25 @@
                        Foreground="White"/>
         </Grid>
 
+        <Grid x:Name="GridAreaConteudo"
+              Background="White"
+              Margin="8"
+              Canvas.ZIndex="2"
+              CornerRadius="8"
+              Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="90"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+
+
+            <Grid.Shadow>
+                <ThemeShadow/>
+            </Grid.Shadow>
+        </Grid>
+
     </Grid>
+
+
 </Page>

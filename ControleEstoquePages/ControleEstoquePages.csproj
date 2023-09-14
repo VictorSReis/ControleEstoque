@@ -7,6 +7,7 @@
     <UseWinUI>true</UseWinUI>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="PgContentDialogAddNewProdutoStyle.xaml" />
     <None Remove="Pg_Caixa.xaml" />
     <None Remove="Pg_Despesas.xaml" />
     <None Remove="Pg_Estoque.xaml" />
@@ -28,6 +29,12 @@
     <ProjectReference Include="..\ControleEstoqueResources\ControleEstoqueResources.csproj" />
     <ProjectReference Include="..\ControleEstoqueSDK\ControleEstoqueSDK.csproj" />
     <ProjectReference Include="..\ControleEstoqueUserControls\ControleEstoqueUserControls.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="PgContentDialogAddNewProdutoStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <ItemGroup>

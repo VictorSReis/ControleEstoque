@@ -19,4 +19,7 @@ public interface ILayoutProduto
     public string ValidadeProduto { get; set; }
 
     public int EstoqueProduto { get; set; }
+
+
+    public bool ValidarProduto();
 }

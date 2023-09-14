@@ -13,10 +13,10 @@
         <ResourceDictionary Source="ms-appx:///ControleEstoqueResources//Styles/GlobalResources.xaml"/>
     </Page.Resources>
 
-    <Grid x:Name="GridPrincipal">
+    <Grid x:Name="GridPrincipal"
+          Background="#FFE3E3E3">
         <Grid.RowDefinitions>
             <RowDefinition Height="60"/>
-            <RowDefinition Height="300"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
 
@@ -32,81 +32,23 @@
                        Foreground="White"/>
         </Grid>
 
-        <Grid x:Name="GridAreaPesquisaProdutos"
+        <Grid x:Name="GridAreaConteudo"
+              Background="White"
+              Margin="8"
+              Canvas.ZIndex="2"
+              CornerRadius="8"
               Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="90"/>
-                <RowDefinition />
-            </Grid.RowDefinitions>
-
-            <RelativePanel  Grid.Row="0">
-                <TextBox x:Name="Txb_ProdutoSerach" 
-                         Margin="20,15,0,0"
-                         PlaceholderText="Digite o nome ou ID do produto"
-                         Width="400" Height="24"/>
-
-                <Button x:Name="Btn_SearchProduto"
-                        Background="Transparent"
-                        Margin="15,15,0,0"
-                        RelativePanel.RightOf="Txb_ProdutoSerach"
-                        RelativePanel.AlignVerticalCenterWith="Txb_ProdutoSerach">
-
-                    <Image Source="ms-appx:///ControleEstoqueResources/Images/img_search_produto.png"
-                           Width="20" Height="20" Stretch="Uniform"/>
-                </Button>
-
-                <Line x:Name="Line_Divisoria"
-                      Stroke="Gray"
-                      StrokeThickness="1"
-                      X1="0" X2="800"
-                      Margin="0,20,0,0"
-                      RelativePanel.Below="Txb_ProdutoSerach"
-                      RelativePanel.AlignVerticalCenterWithPanel="True"
-                      RelativePanel.AlignHorizontalCenterWithPanel="True"/>
-
-                <TextBlock x:Name="Text_StatusProcura"
-                           Text="PRODUTOS NO ESTOQUE"
-                           FontSize="18"
-                           FontWeight="Bold"
-                           RelativePanel.Below="Line_Divisoria"
-                           RelativePanel.AlignVerticalCenterWithPanel="True"
-                           RelativePanel.AlignHorizontalCenterWithPanel="True"/>
-            </RelativePanel>
-
-            <ListView x:Name="ListViewResultadosProcuraProduto" 
-                      Grid.Row="1">
-                <ListView.Resources>
-                    <ResourceDictionary Source="ms-appx:///ControleEstoqueResources//Styles/ListViewResourceSearchProdutoCaixa.xaml"/>
-                </ListView.Resources>
-
-            </ListView>
-
-        </Grid>
-
-        <Grid x:Name="GridUltimasVendas" 
-              Grid.Row="2"
-              Margin="0,2,0,0"
-              BorderThickness="0,1,0,0"
-              BorderBrush="Gray">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="30"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <TextBlock Text="ÚLTIMAS VENDAS REALIZADAS"
-                       FontSize="18"
-                       FontWeight="Bold"
-                       HorizontalAlignment="Center" 
-                       VerticalAlignment="Center"/>
+            
 
-            <ListView x:Name="ListViewUltimasVendas" Grid.Row="1">
-                <ListView.Resources>
-                    <ResourceDictionary Source="ms-appx:///ControleEstoqueResources//Styles/ListViewResourceProdutoVendido.xaml"/>
-                </ListView.Resources>
-
-            </ListView>
-
+            <Grid.Shadow>
+                <ThemeShadow/>
+            </Grid.Shadow>
         </Grid>
-        
+
     </Grid>
 </Page>

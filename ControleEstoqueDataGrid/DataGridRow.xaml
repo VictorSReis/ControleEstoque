@@ -10,6 +10,8 @@
     Height="36" MaxHeight="36"
     Margin="0,6,2,0">
 
+    <!--#FFF0F0F0-->
+    
     <Grid x:Name="GridPrincipal" 
           CornerRadius="8"
           Height="36" MaxHeight="36"
@@ -104,7 +106,8 @@
                      HorizontalAlignment="Center"
                      VerticalAlignment="Center"
                      KeyUp="Interation_Editable_RowContent_KeyUp"
-                     TextChanged="Interation_Editable_Content_TextChanged"
+                     LostFocus="Interation_Controle_Lost_Focus_For_Update"
+                     TabIndex="0"
                      ToolTipService.ToolTip=""/>
 
             <TextBox x:Name="TextBox_CustoProduto" 
@@ -119,7 +122,8 @@
                      HorizontalAlignment="Center"
                      VerticalAlignment="Center"
                      KeyUp="Interation_Editable_RowContent_KeyUp" 
-                     TextChanged="Interation_Editable_Content_TextChanged"
+                     LostFocus="Interation_Controle_Lost_Focus_For_Update"
+                     TabIndex="1"
                      ToolTipService.ToolTip=""/>
 
             <TextBox x:Name="TextBox_PrecoVendaProduto" 
@@ -134,7 +138,8 @@
                      VerticalAlignment="Center"
                      TextWrapping="Wrap"
                      KeyUp="Interation_Editable_RowContent_KeyUp" 
-                     TextChanged="Interation_Editable_Content_TextChanged"
+                     LostFocus="Interation_Controle_Lost_Focus_For_Update"
+                     TabIndex="2"
                      ToolTipService.ToolTip=""/>
 
             <TextBox x:Name="TextBox_ValidadeProduto" 
@@ -149,7 +154,8 @@
                      HorizontalAlignment="Center"
                      VerticalAlignment="Center"
                      KeyUp="Interation_Editable_RowContent_KeyUp" 
-                     TextChanged="Interation_Editable_Content_TextChanged"
+                     LostFocus="Interation_Controle_Lost_Focus_For_Update"
+                     TabIndex="3"
                      ToolTipService.ToolTip=""/>
 
             <TextBox x:Name="TextBox_QtdEstoqueProduto" 
@@ -164,7 +170,8 @@
                      HorizontalAlignment="Center"
                      VerticalAlignment="Center"
                      KeyUp="Interation_Editable_RowContent_KeyUp" 
-                     TextChanged="Interation_Editable_Content_TextChanged"
+                     LostFocus="Interation_Controle_Lost_Focus_For_Update"
+                     TabIndex="4"
                      ToolTipService.ToolTip=""/>
 
         </Grid>

@@ -53,19 +53,91 @@
 
             <Grid x:Name="GridFuncoesBaseEstoque"
                   Grid.Row="0">
-                <Button x:Name="Btn_TesteAddItem" Content="ADD" Click="Btn_TesteAddItem_Click"/>
+                <StackPanel Orientation="Horizontal">
+                    
+                    <Button x:Name="Btn_UpdateListDb" 
+                            Margin="5,0,10,0"
+                            Foreground="RoyalBlue"
+                            Click="Btn_UpdateListDb_Click"
+                            ToolTipService.ToolTip="Atualizar a lista de dados atuais.">
+                        <FontIcon Width="45" Height="45" FontSize="30" Glyph="&#xE72C;"/>
+                    </Button>
+
+                    <Button x:Name="Btn_AddNewItemDb" 
+                            Margin="0,0,10,0"
+                            Foreground="ForestGreen"
+                            Click="Btn_AddNewItemDb_Click"
+                            ToolTipService.ToolTip="Adicionar um novo produto">
+                        <FontIcon Width="45" Height="45" FontSize="30" Glyph="&#xECC8;"/>
+                    </Button>
+
+                    <Button x:Name="Btn_DeletarProdutoSelected" 
+                            Margin="0,0,10,0"
+                            Foreground="IndianRed"
+                            ToolTipService.ToolTip="Deletar produto selecionado">
+                        <FontIcon Width="45" Height="45" FontSize="30" Glyph="&#xECE4;"/>
+                        <Button.Flyout>
+                            <Flyout>
+                                <RelativePanel>
+                                    <TextBlock x:Name="TextBlock_TextoInfo" Text="Tem certeza que deseja deletar o produto do banco de dados?"/>
+                                    <Button x:Name="Btn_Confirm_Delete_Produto" 
+                                            Content="Sim" 
+                                            Background="IndianRed"
+                                            Foreground="White"
+                                            Margin="0,15,10,0" 
+                                            RelativePanel.Below="TextBlock_TextoInfo"
+                                            Click="Btn_Confirm_Delete_Produto_Click"/>
+                                    <Button x:Name="Btn_Cancel_Delete_Produto" 
+                                            Content="Não"
+                                            Background="DarkSlateBlue"
+                                            Foreground="White"
+                                            Margin="0,15,10,0" 
+                                            RelativePanel.Below="TextBlock_TextoInfo"
+                                            RelativePanel.RightOf="Btn_Confirm_Delete_Produto"
+                                            Click="Btn_Cancel_Delete_Produto_Click"/>
+                                </RelativePanel>
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
+
+                    <Button x:Name="Btn_SaveDb" 
+                            Foreground="RoyalBlue"
+                            Click="Btn_SaveDb_Click"
+                            ToolTipService.ToolTip="Salvar banco de dados">
+                        <FontIcon Width="45" Height="45" FontSize="30" Glyph="&#xE792;"/>
+                    </Button>
+
+                    <TextBox Name="Txb_TextoPesquisaProduto" 
+                             Width="350"
+                             MaxHeight="58"
+                             TextAlignment="Center"
+                             TextWrapping="Wrap"
+                             PlaceholderText="Digite um nome para pesquisa"
+                             Margin="10,0,0,0"
+                             />
+                    
+                    <Button x:Name="Btn_SearchInDbPesquisa"
+                            Foreground="RoyalBlue"
+                            Margin="10,0,0,0"
+                            Click="Btn_SearchInDbPesquisa_Click"
+                            ToolTipService.ToolTip="Realizar pesquisa">
+                        <FontIcon Width="45" Height="45" FontSize="30" Glyph="&#xE721;"/>
+                    </Button>
+
+
+                </StackPanel>
             </Grid>
 
             <Grid x:Name="GridViewEstoque"
               Background="Transparent"
               Grid.Row="1">
 
-                <DataGridControle:Usr_Ctl_Controle_Estoque_Data_Grid 
+                <DataGridControle:DataGridControleEstoque 
                     x:Name="DataGridControle"
                     Background="Black"
                     Margin="5">
 
-                </DataGridControle:Usr_Ctl_Controle_Estoque_Data_Grid>
+                </DataGridControle:DataGridControleEstoque>
             </Grid>
 
             <Grid.Shadow>
