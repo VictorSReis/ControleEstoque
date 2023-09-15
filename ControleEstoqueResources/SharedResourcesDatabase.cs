@@ -1,5 +1,4 @@
 ﻿using ControleEstoqueCore.Database;
-using System.Collections.ObjectModel;
 
 namespace ControleEstoqueResources;
 

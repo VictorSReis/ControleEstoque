@@ -107,15 +107,15 @@
                         <FontIcon Width="45" Height="45" FontSize="30" Glyph="&#xE792;"/>
                     </Button>
 
-                    <TextBox Name="Txb_TextoPesquisaProduto" 
-                             Width="350"
-                             MaxHeight="58"
+                    <TextBox x:Name="Txb_TextoPesquisaProduto"
+                             PlaceholderText="Pesquise pelo nome do produto"
+                             HorizontalContentAlignment="Center"
+                             HorizontalTextAlignment="Center"
+                             VerticalContentAlignment="Center"
                              TextAlignment="Center"
-                             TextWrapping="Wrap"
-                             PlaceholderText="Digite um nome para pesquisa"
-                             Margin="10,0,0,0"
-                             />
-                    
+                             Width="350" Height="58" MaxHeight="58"
+                             Margin="10,0,0,0"/>
+
                     <Button x:Name="Btn_SearchInDbPesquisa"
                             Foreground="RoyalBlue"
                             Margin="10,0,0,0"
