@@ -7,9 +7,8 @@
     <UseWinUI>true</UseWinUI>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="ComprovanteVendaControleUsuario.xaml" />
     <None Remove="ProdutoCaixaSaidaControleUsuario.xaml" />
-    <None Remove="Usr_Ctl_Item_Produto_Procura_Caixa.xaml" />
-    <None Remove="Usr_Ctl_Item_Produto_Vendido.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -18,22 +17,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Page Update="Usr_Ctl_Item_Produto_Procura_Caixa.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Usr_Ctl_Item_Produto_Vendido.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
     <CustomAdditionalCompileInputs Remove="ProdutoCaixaSaidaControleUsuario.xaml" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Remove="ProdutoCaixaSaidaControleUsuario.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="ComprovanteVendaControleUsuario.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 </Project>

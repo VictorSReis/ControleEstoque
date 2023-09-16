@@ -59,6 +59,5 @@
 
   <ItemGroup>
     <Folder Include="Configurations\" />
-    <Folder Include="NovaPasta\" />
   </ItemGroup>
 </Project>

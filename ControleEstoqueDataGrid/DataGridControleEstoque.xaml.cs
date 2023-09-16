@@ -1,5 +1,6 @@
 using ControleEstoqueCore;
 using ControleEstoqueCore.Database;
+using ControleEstoqueDataGrid.DataGridFunctions;
 using ControleEstoqueDB.Database;
 using ControleEstoqueResources;
 using ControleEstoqueSDK;
@@ -17,9 +18,6 @@ namespace ControleEstoqueDataGrid;
 public sealed partial class DataGridControleEstoque : UserControl
 {
     #region PROPRIEDAES
-    private IControleDatabaseEstoque DbEstoque { get; set; }
-    private int CountProdutos { get; set; }
-    private IList<ILayoutProduto> _CurrentProdutos { get; set; }
     private IAppMessageBox MsgBox { get; set; }
     #endregion
 
@@ -39,7 +37,6 @@ public sealed partial class DataGridControleEstoque : UserControl
         this.InitializeComponent();
         this.Loaded += DataGridControleEstoque_Loaded;
     }
-
 
     #region EVENTOS DE DESIGN
     private void DataGridControleEstoque_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
@@ -83,49 +80,22 @@ public sealed partial class DataGridControleEstoque : UserControl
             Debug.WriteLine($"PRODUTO ID: {e.IDProduto} FOI ATUALIZADO!");
 
         if (ResultUpdate)
-            DbEstoque.SaveChanges();
+            DataGridShared.SaveDb();
     }
     #endregion
 
     #region MÉTODOS PÚBLICOS
-    public void SetDb (IControleDatabaseEstoque pEstoqueDb)
+    public void LoadDb(IControleDatabaseEstoque pEstoqueDb)
     {
-        DbEstoque = pEstoqueDb;
+        DataGridShared.InitializeShared(pEstoqueDb);
     }
 
-    public async Task LoadDb()
+    public void PopulateDataGrid(Func<ILayoutProduto, bool> pFuncLoadProdutos)
     {
-        await PrivateGetDatabaseInfo();
-    }
-
-    public void LoadProdutos(Func<ILayoutProduto, bool> pFuncLoadProdutos)
-    {
-        if (pFuncLoadProdutos is null)
-            PrivateLoadAllProdutos();
+        if(pFuncLoadProdutos is not null)
+            PrivatePopulateDataByFunc(pFuncLoadProdutos);
         else
-            PrivateLoadProdutosByFunc(pFuncLoadProdutos);
-    }
-
-    public void PopulateDataGrid()
-    {
-        PrivatePopulateData();
-    }
-
-    public DataGridRow CreateNewRow(ILayoutProduto pProduto)
-    {
-        DataGridRow NewRow = new ();
-        NewRow.LoadProduto(pProduto);
-        return NewRow;
-    }
-
-    public void AddNewRow(DataGridRow pDataGridRow)
-    {
-        //GET EVENTS
-        pDataGridRow.ProdutoChanged += PDataGridRow_ProdutoChanged;
-        pDataGridRow.RowSelectChanged += PDataGridRow_RowSelectChanged;
-
-        //REGISTER
-        PrivateRegistrarProduto(pDataGridRow);
+            PrivatePopulateData();
     }
 
     public RemoveItemDatabaseResult DeletarProdutoRowSelecionada() 
@@ -139,10 +109,10 @@ public sealed partial class DataGridControleEstoque : UserControl
         }
 
         //REMOVE FROM DATA GRID ROWS
-        PrivateRemoverProdutoFromDataGrid(Global_RowSelecionada);
+        PrivateRemoverProdutoFromGridView(Global_RowSelecionada);
 
         //DELETE IN DB
-        DbEstoque.DeletarProduto(Global_RowSelecionada.Produto);
+        DataGridShared._DatabaseEstoque.DeletarProduto(Global_RowSelecionada.Produto);
 
         //REMOVE ENVETS
         Global_RowSelecionada.ProdutoChanged -= PDataGridRow_ProdutoChanged;
@@ -169,27 +139,27 @@ public sealed partial class DataGridControleEstoque : UserControl
 
     public void SaveDb()
     {
-        if (DbEstoque is null)
+        if (DataGridShared._DatabaseEstoque is null)
             return;
 
-        DbEstoque.SaveChanges();
+        DataGridShared.SaveDb();
     }
     #endregion
 
     #region MÉTODOS PRIVADOS
-    private void PrivateRegistrarProduto(DataGridRow pDataGridRow)
+    private void PrivateAddProdutoInGridView(DataGridRow pDataGridRow)
     {
         StackPanelDataGridItems.Children.Add(pDataGridRow);
     }
 
-    private void PrivateRemoverProdutoFromDataGrid(DataGridRow pDataGridRow)
+    private void PrivateRemoverProdutoFromGridView(DataGridRow pDataGridRow)
     {
         StackPanelDataGridItems.Children.Remove(pDataGridRow);
     }
 
     private bool PrivateUpdateProdutoNoDb(ref ILayoutProduto pRefProduto)
     {
-        return DbEstoque.UpdateProduto(pRefProduto);
+        return DataGridShared._DatabaseEstoque.UpdateProduto(pRefProduto);
     }
 
     private void PrivateClearAllDataList()
@@ -197,8 +167,20 @@ public sealed partial class DataGridControleEstoque : UserControl
         if (Global_RowSelecionada is not null)
             Global_RowSelecionada = null;
 
+        foreach (var Row in StackPanelDataGridItems.Children.OfType<DataGridRow>())
+        {
+            //LIMPA OS DADOS
+            Row.RowSelectChanged -= PDataGridRow_RowSelectChanged;
+            Row.ProdutoChanged -= PDataGridRow_ProdutoChanged;
+            Row.UnloadRow();
+
+            //DEVOLVE PARA O POOL
+            DataGridShared._PoolRows.ReturnObjectToPool(Row);
+        }
+
         StackPanelDataGridItems.Children.Clear();
         OnDataGridCleared?.Invoke(this, null);
+        
         GC.Collect();
         GC.WaitForPendingFinalizers();
         GC.Collect();
@@ -207,74 +189,60 @@ public sealed partial class DataGridControleEstoque : UserControl
     private DataGridRow PrivateSearchRowByProdutoID(int pId)
         => StackPanelDataGridItems.Children.OfType<DataGridRow>().FirstOrDefault(x => x.Produto.IDProduto == pId);
 
-    private async Task PrivateGetDatabaseInfo()
+    private async void PrivatePopulateDataByFunc(Func<ILayoutProduto, bool> pFuncLoadProdutos)
     {
-        //GET COUNT PRODUTOS
-        CountProdutos = await DbEstoque.GetCountProdutos();
-
-        //CREATE CURRENT LIST PRODUTOS
-        _CurrentProdutos = new List<ILayoutProduto>(CountProdutos);
-    }
-
-    private void PrivateLoadAllProdutos()
-    {
-        if (_CurrentProdutos.Count > 0)
-            _CurrentProdutos.Clear();
-
-        //GET ALL PRODUTOS.
-        var Dados = DbEstoque.GetProdutos();
-        if (Dados is null)
+        int _CurrentCountProdutos = await DataGridShared._DatabaseEstoque.GetCountProdutos();
+        if (_CurrentCountProdutos == 0)
         {
-            MsgBox.ShowMessageAsync("Nenhum produto registrado no banco de dados!");
-            return;
-        }
-        if (Dados.Count() <= 0)
-        {
-            MsgBox.ShowMessageAsync("Nenhum produto registrado no banco de dados!");
+            await MsgBox.ShowMessageAsync("Nenum produto foi registrando no banco de dados!");
             return;
         }
 
-        foreach (var item in Dados)
+        bool Result = DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.High, () =>
         {
-            _CurrentProdutos.Add(item);
-        }
-    }
-
-    private void PrivateLoadProdutosByFunc(Func<ILayoutProduto, bool> pFuncLoadProdutos)
-    {
-        if (_CurrentProdutos.Count > 0)
-            _CurrentProdutos.Clear();
-
-        //GET ALL PRODUTOS.
-        var Dados = DbEstoque.SearchAllProdutosByFunc(pFuncLoadProdutos);
-        if (Dados is null)
-        {
-            MsgBox.ShowMessageAsync("Nenhum produto foi encontrado com o filtro informado!");
-            return;
-        }
-        if (Dados.Count() <= 0)
-        {
-            MsgBox.ShowMessageAsync("Nenhum produto foi encontrado com o filtro informado!");
-            return;
-        }
-
-        foreach (var item in Dados)
-        {
-            _CurrentProdutos.Add(item);
-        }
-    }
-
-    private void PrivatePopulateData()
-    {
-        if (CountProdutos <= 0)
-            return;
-
-        bool Result = DispatcherQueue.TryEnqueue(() =>
-        {
-            foreach (var NewProdutoAddRow in _CurrentProdutos)
+            foreach (var NewProduto in DataGridShared._DatabaseEstoque.SearchAllProdutosByFunc(pFuncLoadProdutos))
             {
-                var NewRow = CreateNewRow(NewProdutoAddRow);
-                AddNewRow(NewRow);
+                //GET OBJ FROM POOL
+                var RowObj = DataGridShared._PoolRows.GetPoolObject();
+
+                //REGISTER EVENTS
+                RowObj.ProdutoChanged += PDataGridRow_ProdutoChanged;
+                RowObj.RowSelectChanged += PDataGridRow_RowSelectChanged;
+
+                //LOAD INFO
+                RowObj.LoadProduto(NewProduto);
+
+                //ADICIONA NA VIEW
+                PrivateAddProdutoInGridView(RowObj);
+            }
+        });
+    }
+
+    private async void PrivatePopulateData()
+    {
+        int _CurrentCountProdutos = await DataGridShared._DatabaseEstoque.GetCountProdutos();
+        if (_CurrentCountProdutos == 0)
+        {
+            await MsgBox.ShowMessageAsync("Nenum produto foi registrando no banco de dados!");
+            return;
+        }
+
+        bool Result = DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.High, () =>
+        {
+            foreach (var NewProduto in DataGridShared.ProdutosDb())
+            {
+                //GET OBJ FROM POOL
+                var RowObj = DataGridShared._PoolRows.GetPoolObject();
+
+                //REGISTER EVENTS
+                RowObj.ProdutoChanged += PDataGridRow_ProdutoChanged;
+                RowObj.RowSelectChanged += PDataGridRow_RowSelectChanged;
+
+                //LOAD INFO
+                RowObj.LoadProduto(NewProduto);
+
+                //ADICIONA NA VIEW
+                PrivateAddProdutoInGridView(RowObj);
             }
         });
     }

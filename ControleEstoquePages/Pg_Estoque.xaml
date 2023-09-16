@@ -114,7 +114,8 @@
                              VerticalContentAlignment="Center"
                              TextAlignment="Center"
                              Width="350" Height="58" MaxHeight="58"
-                             Margin="10,0,0,0"/>
+                             Margin="10,0,0,0"
+                             KeyUp="Txb_TextoPesquisaProduto_KeyUp"/>
 
                     <Button x:Name="Btn_SearchInDbPesquisa"
                             Foreground="RoyalBlue"

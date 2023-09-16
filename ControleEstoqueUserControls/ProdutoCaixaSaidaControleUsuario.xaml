@@ -81,7 +81,7 @@
 
         <TextBlock Text="Qtd." FontSize="18" TextAlignment="Center" Grid.Column="4"/>
         <NumberBox x:Name="NumberBox_QuantidadeSaida"
-                   Value="0"
+                   Value="1"
                    Width="80"
                    Grid.Column="4"
                    Grid.Row="1"

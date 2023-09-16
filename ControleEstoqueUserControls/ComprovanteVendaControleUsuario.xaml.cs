@@ -18,9 +18,9 @@ using Windows.Foundation.Collections;
 
 namespace ControleEstoqueUserControls
 {
-    public sealed partial class Usr_Ctl_Item_Produto_Vendido : UserControl
+    public sealed partial class ComprovanteVendaControleUsuario : UserControl
     {
-        public Usr_Ctl_Item_Produto_Vendido()
+        public ComprovanteVendaControleUsuario()
         {
             this.InitializeComponent();
         }

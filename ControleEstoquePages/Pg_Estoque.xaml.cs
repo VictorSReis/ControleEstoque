@@ -37,6 +37,7 @@ public sealed partial class Pg_Estoque : Page
     {
         this.InitializeComponent();
         this.Loaded += Pg_Estoque_Loaded;
+        this.Unloaded += Pg_Estoque_Unloaded;
         
     }
 
@@ -49,12 +50,17 @@ public sealed partial class Pg_Estoque : Page
         //SET DB
         PrivateSetDatabase();
     }
+
+    private void Pg_Estoque_Unloaded(object sender, RoutedEventArgs e)
+    {
+        DataGridControle.ClearAll();
+    }
     #endregion
 
     #region EVENTOS DE INTERAÇÃO
     private void Btn_UpdateListDb_Click(object sender, RoutedEventArgs e)
     {
-        PrivateLoadDb(null);
+        PrivateLoadProdutosView(null);
     }
 
     private async void Btn_AddNewItemDb_Click(object sender, RoutedEventArgs e)
@@ -80,7 +86,7 @@ public sealed partial class Pg_Estoque : Page
 
 
         //UPDATE DATA GRID
-        PrivateLoadDb(null);
+        PrivateLoadProdutosView(null);
 
 
         Done:;
@@ -103,13 +109,17 @@ public sealed partial class Pg_Estoque : Page
 
     private void Btn_SearchInDbPesquisa_Click(object sender, RoutedEventArgs e)
     {
-        string TextoPesquisa = Txb_TextoPesquisaProduto.Text;
-        if (string.IsNullOrEmpty(TextoPesquisa))
-            return;
-        if (TextoPesquisa.Count() < 2)
-            return;
+        PrivateSearchItemInList();
+    }
 
-        PrivateLoadDb(x=> x.NomeProduto.Contains(TextoPesquisa, StringComparison.OrdinalIgnoreCase));
+    private void Txb_TextoPesquisaProduto_KeyUp(object sender, KeyRoutedEventArgs e)
+    {
+        if(e.Key == Windows.System.VirtualKey.Enter)
+        {
+            Txb_TextoPesquisaProduto.IsEnabled = false;
+            PrivateSearchItemInList();
+            Txb_TextoPesquisaProduto.IsEnabled = true;
+        }
     }
     #endregion
 
@@ -123,16 +133,25 @@ public sealed partial class Pg_Estoque : Page
     private void PrivateSetDatabase()
     {
         _DbEstoque = SharedResourcesDatabase.DatabaseEstoque;
-        DataGridControle.SetDb(_DbEstoque);
+        DataGridControle.LoadDb(_DbEstoque);
     }
 
-    private async void PrivateLoadDb
+    private void PrivateSearchItemInList()
+    {
+        string TextoPesquisa = Txb_TextoPesquisaProduto.Text;
+        if (string.IsNullOrEmpty(TextoPesquisa))
+            return;
+        if (TextoPesquisa.Count() < 2)
+            return;
+
+        PrivateLoadProdutosView(x => x.NomeProduto.Contains(TextoPesquisa, StringComparison.OrdinalIgnoreCase));
+    }
+
+    private void PrivateLoadProdutosView
         (Func<ILayoutProduto, bool> pLoadDbProdutosByFunc)
     {
-        DataGridControle.ClearAll();
-        await DataGridControle.LoadDb();
-        DataGridControle.LoadProdutos(pLoadDbProdutosByFunc);
-        DataGridControle.PopulateDataGrid();
+        DataGridControle.ClearAll();      
+        DataGridControle.PopulateDataGrid(pLoadDbProdutosByFunc);
     }
 
     private async Task<ILayoutProduto> PrivateShowCadastroNovoProduto()

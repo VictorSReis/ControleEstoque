@@ -31,7 +31,6 @@ public sealed partial class DataGridRow : UserControl
     /// Obtém o produto definido nesta linha
     /// </summary>
     public ILayoutProduto Produto { get => InternalProduto; private set => InternalProduto = value; }
-
     internal ILayoutProduto InternalProduto;
     #endregion
 
@@ -173,6 +172,9 @@ public sealed partial class DataGridRow : UserControl
 
     private void GridPrincipal_PointerEntered(object sender, PointerRoutedEventArgs e)
     {
+        if (Produto is null)
+            return;
+
         if (Produto.EstoqueProduto == 0)
             return;
 
@@ -183,6 +185,9 @@ public sealed partial class DataGridRow : UserControl
 
     private void GridPrincipal_PointerExited(object sender, PointerRoutedEventArgs e)
     {
+        if (Produto is null)
+            return;
+
         if (Produto.EstoqueProduto == 0)
             return;
 
@@ -260,6 +265,12 @@ public sealed partial class DataGridRow : UserControl
     {
         PrivateDeselectRow();
     }
+
+    public void UnloadRow()
+    {
+        PrivateUnloadRow();
+
+    }
     #endregion
 
     #region PRIVATE
@@ -275,6 +286,27 @@ public sealed partial class DataGridRow : UserControl
         ItemIsSelected = false;
         GridPrincipal.Background = new
             SolidColorBrush(Util.CreateColorFromHex("0xFFF0F0F0"));
+    }
+
+    private void PrivateUnloadRow()
+    {
+        PrivateDeselectRow();
+        if (InternalProduto is not null)
+            InternalProduto = null;
+        ItemIsSelected = false;
+
+        //REMOVE ALL DATA
+        TextBlock_IdProduto.Text = string.Empty;
+        TextBox_NomeProduto.Text = string.Empty;
+        TextBox_CustoProduto.Text = string.Empty;
+        TextBox_PrecoVendaProduto.Text = string.Empty;
+        TextBox_ValidadeProduto.Text = string.Empty;
+        TextBox_QtdEstoqueProduto.Text = string.Empty;
+        TextBox_NomeProduto.Tag = null;
+        TextBox_CustoProduto.Tag = null;
+        TextBox_PrecoVendaProduto.Tag = null;
+        TextBox_ValidadeProduto.Tag = null;
+        TextBox_QtdEstoqueProduto.Tag = null;
     }
 
     private void PrivateSetColorRedEstoqueZerado()

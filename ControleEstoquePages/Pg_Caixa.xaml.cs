@@ -5,6 +5,7 @@ using ControleEstoqueResources;
 using ControleEstoqueUserControls;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -70,6 +71,7 @@ public sealed partial class Pg_Caixa : Page
 
     Done:;
         PrivateAtualizarTotalItens();
+        PrivateCalcularValorTotal();
         AutoSugestionProdutoAdd.Text = string.Empty;
     }
 
@@ -84,38 +86,23 @@ public sealed partial class Pg_Caixa : Page
 
     private void Btn_CalcularVenda_Click(object sender, RoutedEventArgs e)
     {
-        try
-        {
-            _TotalFechamentoVenda = 0.0f;
 
-            foreach (var item in ListView_ProdutosSaida.Items)
-            {
-                var Produto =
-                    PrivateCovnertObjectProduto(item);
-                if (Produto is null)
-                    continue;
-
-                PrivateIncrementarValorTotalFechamento(
-                    Produto.ObterValorTotal());
-            }
-        }
-        catch (System.Exception)
-        {
-
-        }
     }
 
-    private void Btn_FecharVenda_Click(object sender, RoutedEventArgs e)
+    private async void Btn_FecharVenda_Click(object sender, RoutedEventArgs e)
     {
-        for (int i = 0; i < 8; i++)
-        {
-            ProdutoCaixaSaidaControleUsuario NewProdutoSaida = new();
-            NewProdutoSaida.LoadProdutoInfo(i,
-                "Esmalte preto eudora paris com protecao victus",
-                18.23f,
-                15);
-            ListView_ProdutosSaida.Items.Add(NewProdutoSaida);
-        }
+        ContentDialog dialog = new ContentDialog();
+
+        // XamlRoot must be set in the case of a ContentDialog running in a Desktop app
+        dialog.XamlRoot = this.XamlRoot;
+        dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
+        dialog.Title = "RELATÓRIO DE VENDA";
+        dialog.PrimaryButtonText = "Fechar";
+        dialog.DefaultButton = ContentDialogButton.Primary;
+        dialog.Content = new ComprovanteVendaControleUsuario();
+
+        var result = await dialog.ShowAsync();
+
     }
 
     private void AutoSugestionProdutoAdd_SuggestionChosen
@@ -220,6 +207,29 @@ public sealed partial class Pg_Caixa : Page
             return true;
         else
             return false;
+    }
+
+    private void PrivateCalcularValorTotal()
+    {
+        try
+        {
+            _TotalFechamentoVenda = 0.0f;
+
+            foreach (var item in ListView_ProdutosSaida.Items)
+            {
+                var Produto =
+                    PrivateCovnertObjectProduto(item);
+                if (Produto is null)
+                    continue;
+
+                PrivateIncrementarValorTotalFechamento(
+                    Produto.ObterValorTotal());
+            }
+        }
+        catch (System.Exception)
+        {
+
+        }
     }
 
     private ProdutoCaixaSaidaControleUsuario CreateNewSaida
