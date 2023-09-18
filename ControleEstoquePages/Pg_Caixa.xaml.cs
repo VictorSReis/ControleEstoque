@@ -3,12 +3,19 @@ using ControleEstoqueCore.Database;
 using ControleEstoqueDB.Database;
 using ControleEstoqueResources;
 using ControleEstoqueUserControls;
+using Microsoft.UI.Content;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Automation.Peers;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Numerics;
+using System.Security.Cryptography;
+using System.Text.Json;
+using Windows.Devices.AllJoyn;
 using Windows.Foundation.Collections;
 
 namespace ControleEstoquePages;
@@ -18,7 +25,7 @@ public sealed partial class Pg_Caixa : Page
 {
     #region BANCO DE DADOS
     public IControleDatabaseEstoque DbEstoqueContext;
-    public IControleDatabaseCaixa DbVendasContext;
+    public IControleDatabaseCaixa DbCaixaContext;
     public IList<ILayoutProduto> ListaProdutos;
     #endregion
 
@@ -41,6 +48,9 @@ public sealed partial class Pg_Caixa : Page
 
         //LOAD DB
         PrivateLoadDb();
+
+        //Carrega as ultimas vendas
+        PrivateLoadLastVendas();
 
     }
     #endregion
@@ -67,7 +77,7 @@ public sealed partial class Pg_Caixa : Page
         }
 
         var NewProdutoAdd = CreateNewSaida(GetProdutoIdSelecionado);
-        ListView_ProdutosSaida.Items.Add(NewProdutoAdd);
+        ListView_CaixaSaida.Items.Add(NewProdutoAdd);
 
     Done:;
         PrivateAtualizarTotalItens();
@@ -84,25 +94,67 @@ public sealed partial class Pg_Caixa : Page
         PrivateSetValueValorTotalFechamento();
     }
 
-    private void Btn_CalcularVenda_Click(object sender, RoutedEventArgs e)
-    {
-
-    }
-
     private async void Btn_FecharVenda_Click(object sender, RoutedEventArgs e)
     {
-        ContentDialog dialog = new ContentDialog();
+        if (!ListView_CaixaSaida.Items.Any())
+            return;
 
-        // XamlRoot must be set in the case of a ContentDialog running in a Desktop app
-        dialog.XamlRoot = this.XamlRoot;
-        dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
-        dialog.Title = "RELATÓRIO DE VENDA";
-        dialog.PrimaryButtonText = "Fechar";
-        dialog.DefaultButton = ContentDialogButton.Primary;
-        dialog.Content = new ComprovanteVendaControleUsuario();
+        List<ILayoutProdutoVendido> ListaProdutosVendidos = new(ListView_CaixaSaida.Items.Count);
+        ILayoutCaixa NewCaixa = new LayoutCaixa
+        {
+            Data = DateTime.Now.ToShortDateString(),
+            IID = PrivateCreateNewIIDCaixa(),
+        };
 
-        var result = await dialog.ShowAsync();
+        //OBTÉM OS ITEMS
+        List<ProdutoCaixaSaidaControleUsuario> CaixaSaidaLista = new(ListView_CaixaSaida.Items.Count);
+        foreach (var ItemSaida in ListView_CaixaSaida.Items.OfType<ProdutoCaixaSaidaControleUsuario>())
+        {
+            if (ItemSaida.EstoqueDisponivel())
+                CaixaSaidaLista.Add(ItemSaida);
+            else
+                await SharedResourcesApp._MessageBox.ShowMessageAsync($"O produto '{ItemSaida.NomeProduto}' está fora de estoque!");
+        }
 
+        if (!CaixaSaidaLista.Any())
+            goto Done;
+
+        //PROCESSA A SAIDA
+        foreach (var ItemSaida in CaixaSaidaLista)
+        {
+            //CRIA O ITEM DE SAIDA
+            ILayoutProdutoVendido NewProdutoSaida = new LayoutProdutoVendido
+            {
+                IDProduto = ItemSaida.IdProduto,
+                NomeProduto = ItemSaida.NomeProduto,
+                QuantidadeVendidos = ItemSaida.ObterQuantidadeItemsVendidos(),
+                ValorVenda = ItemSaida.ObterValorTotal()
+            };
+
+            //ADICIONA NA LISTA DE ITENS VENDIDOS PARA O RELATORIO DE CAIXA
+            ListaProdutosVendidos.Add(NewProdutoSaida);
+
+            //DA BAIXA NA QUANTIDADE DO PRODUTO NO ESTOQUE
+            PrivateDarBaixaEstoque(
+                ItemSaida.IdProduto,
+                ItemSaida.ObterQuantidadeItemsVendidos());
+        }
+
+        //SERIALIZA OS ITENS VENDIDOS PARA O OBJETO DE DADOS
+        NewCaixa.Objeto = PrivateSerializarListaItems(ListaProdutosVendidos);
+
+        //ADICIONA UM NOVA ENTRADA NO CAIXA
+        PrivateAdicionarNovaSaida(NewCaixa);
+
+        //MESSAGE
+        await SharedResourcesApp._MessageBox.ShowMessageAsync($"Venda fechada com sucesso!\nVENDA#{NewCaixa.IID}");
+
+        //UPDATE ULTIMAS VENDAS
+        PrivateLoadLastVendas();
+
+    Done:;
+        //LIMPA TUDO
+        PrivateClearAllProdutos();
     }
 
     private void AutoSugestionProdutoAdd_SuggestionChosen
@@ -187,7 +239,7 @@ public sealed partial class Pg_Caixa : Page
     {
         //LOAD DB
         DbEstoqueContext = SharedResourcesDatabase.DatabaseEstoque;
-        DbVendasContext = SharedResourcesDatabase.DatabaseCaixa;
+        DbCaixaContext = SharedResourcesDatabase.DatabaseCaixa;
 
         //LOAD LIST DB
         ListaProdutos = DbEstoqueContext.GetProdutos().ToList();
@@ -195,13 +247,13 @@ public sealed partial class Pg_Caixa : Page
 
     private void PrivateClearAllProdutos()
     {
-        ListView_ProdutosSaida.Items.Clear();
+        ListView_CaixaSaida.Items.Clear();
     }
 
     private bool PrivateCheckProdutoJaListado(int pIdProduto)
     {
         bool Result =
-            ListView_ProdutosSaida.Items.OfType<ProdutoCaixaSaidaControleUsuario>().Any
+            ListView_CaixaSaida.Items.OfType<ProdutoCaixaSaidaControleUsuario>().Any
             (x => x.IdProduto == pIdProduto);
         if (Result)
             return true;
@@ -215,7 +267,7 @@ public sealed partial class Pg_Caixa : Page
         {
             _TotalFechamentoVenda = 0.0f;
 
-            foreach (var item in ListView_ProdutosSaida.Items)
+            foreach (var item in ListView_CaixaSaida.Items)
             {
                 var Produto =
                     PrivateCovnertObjectProduto(item);
@@ -281,13 +333,108 @@ public sealed partial class Pg_Caixa : Page
         try
         {
             TextBlock_QuantidadeTotalProdutosSaida.Text = 
-                ListView_ProdutosSaida.Items.Count.ToString("D3");
+                ListView_CaixaSaida.Items.Count.ToString("D3");
         }
         catch (System.Exception)
         {
 
 
         }
+    }
+    #endregion
+
+    #region PRIVATE PROCESSAMENTO DE SAIDA
+    private void PrivateDarBaixaEstoque
+        (int pIdProduto, int pQuantidadeVendidos)
+    {
+        var ProdutoBaixa = DbEstoqueContext.GetProduto(pIdProduto);
+        if(ProdutoBaixa is null)
+            throw new NullReferenceException("Falhou ao tentar obter o produto a da baixa!");
+
+        ProdutoBaixa.EstoqueProduto -= pQuantidadeVendidos;
+        bool Result = DbEstoqueContext.UpdateProduto(ProdutoBaixa);
+        if (!Result)
+            throw new Exception("Falhou ao dar baixa no estoque!");
+
+        DbEstoqueContext.SaveChanges();
+    }
+
+    private void PrivateAdicionarNovaSaida(ILayoutCaixa pCaixaSaida)
+    {
+        DbCaixaContext.AdicionarSaida(pCaixaSaida);
+        DbCaixaContext.SaveChanges();
+    }
+
+    private byte[] PrivateSerializarListaItems(List<ILayoutProdutoVendido> pListaProdutosVendidos)
+    {
+        return JsonSerializer.SerializeToUtf8Bytes(pListaProdutosVendidos);
+    }
+
+    private string PrivateCreateNewIIDCaixa()
+    {
+        byte[] NumberIID = new byte[4];
+        string IIDText;
+        using (var Rng = RandomNumberGenerator.Create())
+        {
+            while(true)
+            {
+                Rng.GetBytes(NumberIID);
+                BigInteger Bi = new BigInteger(NumberIID);
+                if (Bi < 0)
+                    continue;
+
+                IIDText = Bi.ToString();
+                break;
+            }         
+        }
+
+        return IIDText;
+    }
+    #endregion
+
+    #region PRIVATE - CARREGAR ULTIMAS VENDAS
+    private async void PrivateLoadLastVendas()
+    {
+        //CARREGA AS ULTIMAS 5 VENDAS
+
+        //LIMPA TODOS OS ITENS
+        ListView_UltimasVendas.Items.Clear();
+
+        //OBTÉM A QUANTIDADE DE ITENS NO DB
+        int CountItems = await DbCaixaContext.GetCount();
+        if (CountItems <= 0)
+            return;
+
+        var ListCaixa = DbCaixaContext.GetCaixa().ToList();
+
+        if(CountItems <= 5)
+        {
+            foreach (var item in ListCaixa)
+            {
+                var NewItem = PrivateCreateAndLoadRelatorioObjeto(item);
+                ListView_UltimasVendas.Items.Add(NewItem);
+            }
+        }
+        else
+        {
+            for (int i = (CountItems-1); i >= (CountItems - 5); i--)
+            {
+                var Item = ListCaixa[i];
+
+                var NewItem = PrivateCreateAndLoadRelatorioObjeto(Item);
+                ListView_UltimasVendas.Items.Add(NewItem);
+            }
+        }
+    }
+
+    private RelatorioVendaItemControleUsuario PrivateCreateAndLoadRelatorioObjeto(ILayoutCaixa pDados)
+    {
+        var NewRelatorio = new RelatorioVendaItemControleUsuario();
+        NewRelatorio.SetContentDialogCreator(SharedResourcesApp._DialogCreator);
+        NewRelatorio.LoadCaixaItem(
+            pDados,
+            JsonSerializer.Deserialize<List<LayoutProdutoVendido>>(pDados.Objeto).OfType<ILayoutProdutoVendido>().ToList());
+        return NewRelatorio;
     }
     #endregion
 }

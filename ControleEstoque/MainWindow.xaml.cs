@@ -18,21 +18,27 @@ public sealed partial class MainWindow : Window
         NavigateToHomePage();
     }
 
-    public async void ConfigureResources()
+    public void ConfigureResources()
     {
         //RESOURCES FOR USE APP
         IAppMessageBox MsgBox = new AppMessageBox();
         IControleDatabaseEstoque DbEstoque = new ControleDatabaseEstoque();
+        IControleDatabaseCaixa DbCaixa = new ControleDatabaseCaixa();
+        IContentDialogCreator ContentCreator = new ContentDialogCreator();
 
         //SET RESOURCE BASE
         SharedResourcesApp.SetWindow(this);
         SharedResourcesApp.SetPageAppNavigator(FrameNavegacaoApp);
         MsgBox.ConfigureWindowHandle(SharedResourcesApp._WindowHandle);
         SharedResourcesApp.SetAppMessageBox(MsgBox);
+        SharedResourcesApp.SetContentDialogCreator(ContentCreator);
 
-        //CONFIGURE DATABASE RESOURCES
-        bool ResultOpenDb = await DbEstoque.OpenDatabase(@"C:\Users\VictorSReis\OneDrive\Documentos\ControleEstoqueRenata", "Estoque.db");
-        SharedResourcesDatabase.SetDatabaseEstoque(DbEstoque);
+        //SET INSTANCE FOR DATABASES
+        SharedResourcesDatabase.SetDbEstoque(DbEstoque);
+        SharedResourcesDatabase.SetDbCaixa(DbCaixa);
+
+        //OPEN DB`S
+        SharedResourcesDatabase.OpenDatabases();
     }
 
     public void NavigateToHomePage()

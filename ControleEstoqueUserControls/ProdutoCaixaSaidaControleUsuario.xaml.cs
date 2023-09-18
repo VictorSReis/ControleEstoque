@@ -34,6 +34,7 @@ public sealed partial class ProdutoCaixaSaidaControleUsuario : UserControl
 
     #region EVENTS
     public event EventHandler<int> OnSemEstoqueQtd;
+    public event EventHandler<int> OnRemoveRequest;
     #endregion
 
     public ProdutoCaixaSaidaControleUsuario()
@@ -67,12 +68,30 @@ public sealed partial class ProdutoCaixaSaidaControleUsuario : UserControl
     {
         return (float)_ValorTotalProduto;
     }
+
+    public bool EstoqueDisponivel()
+        => QtdEstoque > 0;
+
+    public int ObterQuantidadeItemsVendidos()
+    {
+        return (int)NumberBox_QuantidadeSaida.Value;
+    }
     #endregion
 
     #region PRIVATE METODOS
     private void PrivateLoadValueElements()
     {
-        TextBlock_NomeProduto.Text = NomeProduto;
+        if(QtdEstoque == 0)
+        {
+            TextBlock_NomeProduto.Text = $"{NomeProduto}(SEM ESTOQUE)";
+            TextBlock_NomeProduto.TextDecorations = Windows.UI.Text.TextDecorations.Strikethrough;
+        }
+        else
+        {
+            TextBlock_NomeProduto.Text = NomeProduto;
+            TextBlock_NomeProduto.TextDecorations = Windows.UI.Text.TextDecorations.None;
+        }
+
         TextBlock_ValorUnitario.Text = ValorUnitario.ToString("C2", CultureInfo.CurrentCulture);
         TextBlock_DisponiveisEstoque.Text = QtdEstoque.ToString();
 

@@ -32,52 +32,54 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <StackPanel Orientation="Vertical">
-                        <Button x:Name="Btn_Caixa" 
+
+
+                <StackPanel Orientation="Vertical">
+                    <Button x:Name="Btn_Caixa" 
                                 HorizontalAlignment="Center" 
                                 Margin="2,10,2,0" 
                                 Background="Transparent"
                                 BorderBrush="Transparent"
                                 Click="Btn_Caixa_Click">
 
-                            <Image Source="ms-appx:///ControleEstoqueResources/Images/img_caixa.png"
+                        <Image Source="ms-appx:///ControleEstoqueResources/Images/img_caixa.png"
                                    Height="50" Width="50" Stretch="Uniform"/>
-                        </Button>
+                    </Button>
 
-                        <Button x:Name="Btn_Estoque" 
+                    <Button x:Name="Btn_Estoque" 
                                 HorizontalAlignment="Center" 
                                 Margin="2,20,2,0" 
                                 Background="Transparent"
                                 BorderBrush="Transparent"
                                 Click="Btn_Estoque_Click">
 
-                            <Image Source="ms-appx:///ControleEstoqueResources/Images/img_estoque.png"
+                        <Image Source="ms-appx:///ControleEstoqueResources/Images/img_estoque.png"
                                    Height="50" Width="50" Stretch="Uniform"/>
-                        </Button>
+                    </Button>
 
-                        <Button x:Name="Btn_Despesas" 
+                    <Button x:Name="Btn_Despesas" 
                                 HorizontalAlignment="Center"
                                 Margin="2,20,2,0" 
                                 Background="Transparent"
                                 BorderBrush="Transparent"
                                 Click="Btn_Despesas_Click">
 
-                            <Image Source="ms-appx:///ControleEstoqueResources/Images/img_despesas.png"
+                        <Image Source="ms-appx:///ControleEstoqueResources/Images/img_despesas.png"
                                    Height="50" Width="50" Stretch="Uniform"/>
-                        </Button>
+                    </Button>
 
-                        <Button x:Name="Btn_Realatorios" 
+                    <Button x:Name="Btn_Realatorios" 
                                 HorizontalAlignment="Center"
                                 Margin="2,20,2,0" 
                                 Background="Transparent"
                                 BorderBrush="Transparent"
                                 Click="Btn_Realatorios_Click">
 
-                            <Image Source="ms-appx:///ControleEstoqueResources/Images/img_relatorio.png"
+                        <Image Source="ms-appx:///ControleEstoqueResources/Images/img_relatorio.png"
                                    Height="50" Width="50" Stretch="Uniform"/>
-                        </Button>
-                    </StackPanel>
-                </Grid>
+                    </Button>
+                </StackPanel>
+            </Grid>
 
 
         </Grid>

@@ -8,8 +8,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="Transparent"
-    Width="200" MaxWidth="250"
-    Height="300" MaxHeight="300">
+    Width="380" MaxWidth="380"
+    Height="500" MaxHeight="500">
 
     <Grid x:Name="GridPrincipal"
           CornerRadius="8">
@@ -17,7 +17,7 @@
             <RowDefinition Height="50"/>
             <RowDefinition Height="30"/>
             <RowDefinition/>
-            <RowDefinition Height="60"/>
+            <RowDefinition Height="80"/>
         </Grid.RowDefinitions>
 
         <!--HEADER DA VENDA-->
@@ -37,8 +37,11 @@
         <!--CONTEUDO VENDA-->
         <StackPanel x:Name="StackPanel_ItensVendidos"
                     Orientation="Vertical"
+                    ScrollViewer.HorizontalScrollMode="Enabled"
+                    ScrollViewer.VerticalScrollMode="Enabled"
+                    ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                    ScrollViewer.VerticalScrollBarVisibility="Hidden"
                     Grid.Row="2"
-                    Background="Aqua"
                     Margin="5,0,0,0">
             
         </StackPanel>
@@ -47,10 +50,10 @@
         <StackPanel x:Name="RelatorioFinal"
                     Grid.Row="3"
                     Orientation="Vertical">
-            <TextBlock x:Name="TextBlock_Relatorio_IID" Text="IID: 0xas0qfq579q41asd" FontSize="12"/>
-            <TextBlock Text="Data Venda: 20/07/2023" FontSize="12"/>
+            <TextBlock x:Name="TextBlock_AuthVenda" Text="Auth: 000" FontSize="14"/>
+            <TextBlock x:Name="TextBlock_DataVenda" Text="Data Venda: 20/07/2023" FontSize="14"/>
             <TextBlock Text="-----------------------------------------------------------" FontSize="9"/>
-            <TextBlock Text="Valor Total: R$ 150,00" FontSize="14" FontWeight="Medium"/>
+            <TextBlock x:Name="TextBlock_ValorTotal" Text="Valor Total: R$ 150,00" FontSize="16" FontWeight="Medium"/>
         </StackPanel>
 
     </Grid>

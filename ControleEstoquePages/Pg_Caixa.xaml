@@ -42,7 +42,7 @@
                 <RowDefinition Height="70"/>
                 <RowDefinition />
                 <RowDefinition Height="60"/>
-                <RowDefinition Height="200"/>
+                <RowDefinition Height="300"/>
             </Grid.RowDefinitions>
 
 
@@ -99,7 +99,7 @@
                   Grid.Row="1"
                   Height="Auto">
 
-                <ListView x:Name="ListView_ProdutosSaida" 
+                <ListView x:Name="ListView_CaixaSaida" 
                           ScrollViewer.VerticalScrollMode="Enabled" 
                           ScrollViewer.VerticalScrollBarVisibility="Visible">
                     
@@ -163,8 +163,27 @@
             </Grid>
 
             <Grid x:Name="GridUltimasVendasRealizadas"
-                  Background="Black"
-                  Grid.Row="3">
+                  Grid.Row="3"
+                  Background="Transparent"
+                  BorderBrush="#FFEDEDED"
+                  BorderThickness="0,1,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <TextBlock Text="ÚLTIMAS VENDAS REALIZADAS" 
+                           FontSize="16" FontWeight="Medium" TextAlignment="Center"
+                           Margin="0,5,0,0"/>
+                <Line VerticalAlignment="Bottom"
+                      HorizontalAlignment="Center"
+                      Stroke="Gray" 
+                      StrokeThickness="2"
+                      X2="800" Y2="0"/>
+
+                <ListView x:Name="ListView_UltimasVendas"
+                          Grid.Row="1">
+                    
+                </ListView>
             </Grid>
 
 

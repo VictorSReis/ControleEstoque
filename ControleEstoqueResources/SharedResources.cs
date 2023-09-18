@@ -12,6 +12,7 @@ public static class SharedResourcesApp
     public static INavigatePage _PageAppNavigator { get; private set; }
     public static INavigatePage _PageRecursoNavigator { get; private set; }
     public static IAppMessageBox _MessageBox { get; private set; }
+    public static IContentDialogCreator _DialogCreator { get; private set; }
     public static Window _MainWindow { get; private set; }
     public static IntPtr _WindowHandle { get; private set; }
     public static WindowId _WindowId { get; private set; }
@@ -37,5 +38,9 @@ public static class SharedResourcesApp
     public static void SetAppMessageBox(IAppMessageBox pAppMessageBox)
     {
         _MessageBox = pAppMessageBox;
+    }
+    public static void SetContentDialogCreator(IContentDialogCreator pContentDialog)
+    {
+        _DialogCreator = pContentDialog;
     }
 }

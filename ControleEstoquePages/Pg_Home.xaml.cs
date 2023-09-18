@@ -42,21 +42,33 @@ namespace ControleEstoquePages
 
         private void Btn_Caixa_Click(object sender, RoutedEventArgs e)
         {
+            if (PageNav.CurrentPageIs(typeof(Pg_Caixa)))
+                return;
+
             PageNav.Navigate(typeof(Pg_Caixa));
         }
 
         private void Btn_Estoque_Click(object sender, RoutedEventArgs e)
         {
+            if (PageNav.CurrentPageIs(typeof(Pg_Estoque)))
+                return;
+
             PageNav.Navigate(typeof(Pg_Estoque));
         }
 
         private void Btn_Despesas_Click(object sender, RoutedEventArgs e)
         {
+            if (PageNav.CurrentPageIs(typeof(Pg_Despesas)))
+                return;
+
             PageNav.Navigate(typeof(Pg_Despesas));
         }
 
         private void Btn_Realatorios_Click(object sender, RoutedEventArgs e)
         {
+            if (PageNav.CurrentPageIs(typeof(Pg_Relatorios)))
+                return;
+
             PageNav.Navigate(typeof(Pg_Relatorios));
         }
     }

@@ -1,3 +1,4 @@
+using ControleEstoqueUserControls;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -26,6 +27,23 @@ namespace ControleEstoquePages
         public Pg_Relatorios()
         {
             this.InitializeComponent();
+        }
+
+
+
+        private async void ShowRelatorioVenda()
+        {
+            ContentDialog dialog = new ContentDialog();
+
+            // XamlRoot must be set in the case of a ContentDialog running in a Desktop app
+            dialog.XamlRoot = this.XamlRoot;
+            dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
+            dialog.Title = "RELATÓRIO DE VENDA";
+            dialog.PrimaryButtonText = "Fechar";
+            dialog.DefaultButton = ContentDialogButton.Primary;
+            dialog.Content = new ComprovanteVendaControleUsuario();
+
+            var result = await dialog.ShowAsync();
         }
     }
 }

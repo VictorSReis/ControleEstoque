@@ -23,7 +23,7 @@
         <Grid x:Name="GridPainelSuperior" 
               Grid.Row="0" 
               Background="{StaticResource GlobalResource_PainelColor}">
-            <TextBlock x:Name="Txt_NomePage" Text="CAIXA" 
+            <TextBlock x:Name="Txt_NomePage" Text="DESPESAS" 
                        HorizontalAlignment="Center" 
                        VerticalAlignment="Center"
                        FontSize="40"

@@ -13,7 +13,7 @@
     <Grid x:Name="GridPrincipal" Background="#FFFFFAFD"
           CornerRadius="5"
           BorderBrush="Gray"
-          BorderThickness="1,1,1,1">
+          BorderThickness="1">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="400"/>
             <ColumnDefinition Width="180"/>
@@ -90,6 +90,6 @@
                    HorizontalContentAlignment="Center"
                    LostFocus="NumberBox_QuantidadeSaida_LostFocus"
                    ToolTipService.ToolTip="Informe a quantidade."/>
-
     </Grid>
+    
 </UserControl>

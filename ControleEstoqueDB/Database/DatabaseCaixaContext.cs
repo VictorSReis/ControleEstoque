@@ -5,10 +5,10 @@ using System.IO;
 
 namespace ControleEstoqueDB.Database;
 
-public sealed class DatabaseVendasContext : DbContext
+public sealed class DatabaseCaixaContext : DbContext
 {
     #region DATABASE CONFIGS
-    public DbSet<LayoutProdutoVendido> Produtos { get; set; }
+    public DbSet<LayoutCaixa> Caixa { get; set; }
 
     private string PathDb = string.Empty;
 
@@ -16,7 +16,7 @@ public sealed class DatabaseVendasContext : DbContext
     #endregion
 
     #region INSTANCE
-    public DatabaseVendasContext
+    public DatabaseCaixaContext
        (string pPathDb, string pNameDb)
     {
         PathDb = pPathDb;

@@ -1,3 +1,4 @@
+using CommunityToolkit.Common;
 using ControleEstoqueCore.Database;
 using ControleEstoqueDataGrid;
 using ControleEstoqueResources;
@@ -138,13 +139,21 @@ public sealed partial class Pg_Estoque : Page
 
     private void PrivateSearchItemInList()
     {
-        string TextoPesquisa = Txb_TextoPesquisaProduto.Text;
+        string TextoPesquisa = Txb_TextoPesquisaProduto.Text.Trim();
         if (string.IsNullOrEmpty(TextoPesquisa))
             return;
-        if (TextoPesquisa.Count() < 2)
-            return;
 
-        PrivateLoadProdutosView(x => x.NomeProduto.Contains(TextoPesquisa, StringComparison.OrdinalIgnoreCase));
+        if (TextoPesquisa.IsNumeric())
+        {
+            PrivateLoadProdutosView(x => x.IDProduto == int.Parse(TextoPesquisa));
+        }
+        else
+        {
+            if (TextoPesquisa.Count() < 2)
+                return;
+            PrivateLoadProdutosView(x => x.NomeProduto.Contains(TextoPesquisa, StringComparison.OrdinalIgnoreCase));
+        }
+
     }
 
     private void PrivateLoadProdutosView
